@@ -19,22 +19,22 @@
 
 anSeries <- function(r, yr1, yr2, yr0, comp = "mean"){
 
-r <- stack()
+r1 <- stack()
 m1 <- (yr1-yr0)*12+1   # position starting month 
 m2 <- ((yr2-yr0)*12+1)+11            # position ending month
 
-x <- getValues(rasStack[[m1:m2]])
+x <- getValues(r[[m1:m2]])
 ocean <- which(rowSums(is.na(x))!= ncol(x))    # remove land cells  (whole row NAs)
 x <- t(x[ocean,])
 f <- rep(1:(yr2-yr1+1), each = 12)
 
 for(i in 1:(yr2-yr1+1)){  # iterate from the beginning at 12-month steps
-rr <- raster(rasStack[[1]])
+rr <- raster(r[[1]])
 if(comp == "mean"){rr[ocean] <- colMeans(x[which(f == i),], na.rm = T)}
 if(comp == "max"){rr[ocean] <- do.call(pmax, c(as.data.frame(t(x[which(f == i),])), na.rm = TRUE))}
 if(comp == "min"){rr[ocean] <- do.call(pmin, c(as.data.frame(t(x[which(f == i),])), na.rm = TRUE))}
-r <- addLayer(r, rr)
+r1 <- addLayer(r1, rr)
 }
 
-return(r)
+return(r1)
 }

@@ -46,7 +46,7 @@ SE <- suppressWarnings(sqrt((N*sres)/(N*sxx-sx^2)))
 Test <- slope/SE
 p <- mapply(function(x,y) (2*pt(abs(x), df = y-2, lower.tail = FALSE)), x = Test, y = N)
 
-slpTrends <- sigTrends <- seTrends <- raster(rasStack[[1]])
+slpTrends <- sigTrends <- seTrends <- raster(r[[1]])
 slpTrends[ocean[ind]] <- slope
 seTrends[ocean[ind]] <- SE
 sigTrends[ocean[ind]] <- p
