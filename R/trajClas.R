@@ -2,13 +2,13 @@
 #'
 #' Function for the spatial classification of cells based on vocc trajectories after Burrows et al (2014).
 #'
-#' @param traj \code{data.frame} as retuned by voccTraj containing the coordinates 
+#' @param traj \code{data.frame} as retuned by voccTraj containing the coordinates
 #' and identification number for each trajectory.
 #' @param vel \code{raster} with the magnitude of local climate velocity.
 #' @param ang \code{raster} with velocity angles.
 #' @param trajSt \code{integer} number of trajectories starting from each cell or spatial unit.
 #' @param tyr \code{integer} number of years comprising the period of interest.
-#' @param nmL \code{numeric} upper threshold (distance units as per vel object) up to which 
+#' @param nmL \code{numeric} upper threshold (distance units as per vel object) up to which
 #' a trajectory is considered to have traveled a negiglibe distance over the study period (non-moving).
 #' @param smL \code{numeric} upper threshold up to which a trajectory is considered to have traveled a small
 #' distance over the study period (slow-moving).
@@ -16,21 +16,23 @@
 #' @param Nst \code{numeric} the percentage of trajectories starting to be used as threshold in the classification (see Burrows et al. 2014).
 #' @param NFT \code{numeric} the percentage of trajectories flowing through to be used as threshold in the classification (see Burrows et al. 2014).
 #'
-#' @return a \code{raster.stack} containing the trajectory classification ("TrajClas"), 
+#' @return a \code{raster.stack} containing the trajectory classification ("TrajClas"),
 #' as well as those based on trajectory length ("ClassL"; 1 non-moving, 2 slow-moving, 3 fast-moving cells),
-#' boundrary ("BounS") and internal sinks ("IntS"), and the proportion of trajectories ending("PropEnd"), 
-#' flowing through ("PropFT") and starting ("PropSt"). The trajectory classes ("TrajClas") are (1) non-moving, 
-#' (2) slow-moving, (3) internal sinks, (4) boundary sinks, (5) sources, (6) relative sinks, (7) corridors, 
+#' boundrary ("BounS") and internal sinks ("IntS"), and the proportion of trajectories ending("PropEnd"),
+#' flowing through ("PropFT") and starting ("PropSt"). The trajectory classes ("TrajClas") are (1) non-moving,
+#' (2) slow-moving, (3) internal sinks, (4) boundary sinks, (5) sources, (6) relative sinks, (7) corridors,
 #' (8) divergence and (9) convergence.
 #'
 #' @examples
-#' \dontrun{
+#'
+#' # Load trajectories generated from 0.25-degree global grid
 #' data(traj25)
+#'
 #' clas <- trajClas(traj25, vel, ang, trajSt = 16, tyr = 50, nmL = 20, smL = 100, Nend = 45, Nst = 15, NFT = 70)
+#'
 #' my_col = c('gainsboro','darkseagreen1','coral4','firebrick2','mediumblue','darkorange1','magenta1','cadetblue1','yellow1')
 #' plot(clas[[7]], legend = FALSE, col = my_col)
 #' legend(x='bottomleft', legend = c("N-M", "S-M", "IS", "BS", "Srce", "RS", "Cor", "Div", "Con"), fill = my_col,horiz = TRUE, cex = 0.7)
-#' }
 #'
 #' @import raster data.table
 #' @export
@@ -41,7 +43,7 @@ trajClas <- function(traj, vel, ang, trajSt, tyr, nmL, smL , Nend, Nst, NFT){
 
 TrajEnd <- TrajFT <- TrajSt <- IntS <- BounS <- TrajClas <- raster(ang)
 
-# add cell ID to the data frame                                
+# add cell ID to the data frame
 traj <- data.table(traj)
 traj$cid <- cellFromXY(ang, traj[,1:2])
 
@@ -55,7 +57,7 @@ TrajEnd[!is.na(vel)] <- 0
 TrajEnd[enTraj$cid] <- enTraj$N
 
 # C. Number of traj flowing through each cell
-cxtrj <- unique(traj, by = c("trajIDs", "cid")) 
+cxtrj <- unique(traj, by = c("trajIDs", "cid"))
 TotTraj <- cxtrj[,.N, by = cid]       # total number of trajectories per cell
 TrajFT[!is.na(vel)] <- 0
 TrajFT[TotTraj$cid] <- TotTraj$N
@@ -98,12 +100,12 @@ BounS[unique(subset(j$coastal, j$V == TRUE))] <- 1
 # Total number of trajectories per cell and proportions per cell
 TrajTotal <- calc(stack(TrajSt, TrajFT, TrajEnd), sum, na.rm = TRUE)
 TrajTotal[is.na(ang[])] <- NA
-PropTrajEnd <- (TrajEnd/TrajTotal)*100                          
+PropTrajEnd <- (TrajEnd/TrajTotal)*100
 PropTrajFT <- (TrajFT/TrajTotal)*100
 PropTrajSt <- (TrajSt/TrajTotal)*100
 
 # reclassify by traj length
-rclM <- matrix(c(0, (nmL/tyr), 1, (nmL/tyr), (smL/tyr), 2, (smL/tyr), Inf, 3), ncol=3, byrow=TRUE) 
+rclM <- matrix(c(0, (nmL/tyr), 1, (nmL/tyr), (smL/tyr), 2, (smL/tyr), Inf, 3), ncol=3, byrow=TRUE)
 v <- raster(vel)
 v[] <- abs(vel[])
 ClassMov <- reclassify(v, rclM)
@@ -123,7 +125,7 @@ d <- d[val == 0, 1]
 d[, Nend := PropTrajEnd[d$cid]]
 d[, Nst := PropTrajSt[d$cid]]
 d[, NFT := PropTrajFT[d$cid]]
-d$clas <- ifelse(d$Nend == 0, 5, ifelse(d$Nend > Nend & d$Nst < Nst, 6, ifelse(d$NFT > NFT, 7,ifelse(d$Nend < d$Nst, 8, 9))))           
+d$clas <- ifelse(d$Nend == 0, 5, ifelse(d$Nend > Nend & d$Nst < Nst, 6, ifelse(d$NFT > NFT, 7,ifelse(d$Nend < d$Nst, 8, 9))))
 TrajClas[d$cid] <- d$clas
 
 # return raster
@@ -138,12 +140,11 @@ return(s)
 
 
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+

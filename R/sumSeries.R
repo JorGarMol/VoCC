@@ -1,8 +1,10 @@
 #' Summarize climatic series to higher temporal resolutions
 #'
 #' Function to convert climatic series (provided as \code{RasterStack}) into a
-#' coarser time frequency series for a period of interest. This function is a wrapper
-#' of the apply. function family from the package xts.
+#' coarser time frequency series for a period of interest. This function transforms the \code{RasterStack}
+#' into an \code{xts} time series object to extract the values for the period of interest and
+#' apply some summary function. It is mainly a wrapper from the \code{apply.} function family
+#' in the package xts (Ryan and Ulrich, 2017).
 #'
 #' @param r \code{RasterStack} containing the time series of the climatic variable.
 #' @param p \code{character string} defining the period to extract for the calculation
@@ -10,13 +12,12 @@
 #' @param yr0 \code{character string} specifying the first (yr0) year in the series (see examples).
 #' @param l \code{integer} length of the input time series.
 #' @param fun \code{logical} summary function to be computed. Summary functions need to be applied by cell (columns)
-#' so should have the structure 'function(x) apply(x, 2, function(y){...})'. For convinience, sumSeries imports colMeans,
+#' so should have the structure 'function(x) apply(x, 2, function(y){...})'. For convinience, sumSeries imports
 #' colMaxs, and colMins from package ‘matrixStats’ so they can be called in directly.
 #' @param freqin \code{character string} specifying the original time frequency of the series.
 #' @param freqout \code{character string} specifying the desired time frequency of the new series.
-#' Must be one of the following: "weeks", "months", "quarters", "years". Alternatively,
-#' an \code{integer} representing a month (1-12) can be provided as argument where an
-#' annual series is required for a specific month.
+#' Must be one of the following: "weeks", "months", "quarters", "years", "other". Argument "other"
+#' allows for user-defined functions to be applied on the 'xts' time series object over the period of interest (see examples).
 #'
 #' @return A \code{RasterStack} with the new series.
 #' @references Jeffrey A. Ryan and Joshua M. Ulrich (2017). xts: eXtensible Time Series. R package version 0.10-1.
@@ -24,9 +25,35 @@
 #'  Henrik Bengtsson (2018). matrixStats: Functions that Apply to Rows and Columns of Matrices (and to Vectors). R package version 0.53.1.
 #'  \url{https://CRAN.R-project.org/package=matrixStats}
 #' @import raster xts
-#' @importFrom matrixStats colMaxs colMins colMeans
+#' @importFrom matrixStats colMaxs colMins
 #' @export
 #' @author Jorge Garcia Molinos
+#' @examples
+#' # Load monthly mean SST (HadISST) data for Europe Jan-1950 to Dec-2010
+#'
+#' data(HSST_Eu)
+#'
+#' # Calculate mean annual monthly SST
+#'
+#' yrSST <- sumSeries(HSST_Eu, p = "1969-01/2009-12", yr0 = "1950-01-01", l = nlayers(HSST_Eu), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+#'
+#' # Extract Jul Aug mean SST each year (xts months are indexed from 0 to 11)
+#'
+#' myf = function(x, m = c(7,8)){
+#' x[.indexmon(x) %in% (m-1)]
+#' }
+#'
+#' JlAugSST <- sumSeries(HSST_Eu, p = "1969-01/2009-12", yr0 = "1950-01-01", l = nlayers(HSST_Eu), fun = myf, freqin = "months", freqout = "other")
+#'
+#' # Same but calculating the annual variance of the two months
+#'
+#' myf = function(x, m = c(7,8)){
+#' x1 <- x[.indexmon(x) %in% (m-1)]
+#' apply.yearly(x1, function(y) apply(y, 2, function(y){var(y, na.rm = TRUE)}))
+#' }
+#'
+#' meanJASST <- sumSeries(HSST_Eu, p = "1969-01/2009-12", yr0 = "1950-01-01", l = nlayers(HSST_Eu), fun = myf, freqin = "months", freqout = "other")
+#'
 #' @rdname sumSeries
 
 sumSeries <- function(r, p = "1969-01/2009-12", yr0 = "1870-01-01", l = nlayers(r), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years"){
@@ -36,14 +63,14 @@ m <- t(getValues(r))
 dates <- seq(as.Date(t0), length = l, by = freqin)
 ts1 <- xts(m, order.by = dates)
 # subset for the period of interest
-ts2 <- ts1[p]
+x <- ts1[p]
 
 # calculate the annual series
-if(freqout == "weeks"){s <- apply.weekly(ts2, fun)}
-if(freqout == "months"){s <- apply.monthly(ts2, fun)}
-if(freqout == "quarters"){s <- apply.quarterly(ts2, fun)}    # Jan-Mar (Q1); Apr-Jn (Q2); Jl-Sep(Q3); Oct-Dec (Q4)
-if(freqout == "years"){s <- apply.yearly(ts2, fun)}
-if(is.numeric(freqout)){s <- ts2[.indexmon(ts2) %in% (freqout-1)]}             # xts months are indexed from 0 to 11
+if(freqout == "weeks"){s <- apply.weekly(x, fun)}
+if(freqout == "months"){s <- apply.monthly(x, fun)}
+if(freqout == "quarters"){s <- apply.quarterly(x, fun)}    # Jan-Mar (Q1); Apr-Jn (Q2); Jl-Sep(Q3); Oct-Dec (Q4)
+if(freqout == "years"){s <- apply.yearly(x, fun)}
+if(freqout == "other"){s <- fun(x)}
 
 # create raster stack
 r1 <- stack()

@@ -1,21 +1,32 @@
 #' Long-term local climatic trends
 #'
-#' Function to calculate temporal trend from the mean annual raster series 
-#' of a climatic variable. This trend is to be used for the calculation of the 
+#' Function to calculate temporal trend from the mean annual raster series
+#' of a climatic variable. This trend is to be used for the calculation of the
 #' local climate velocity using lVoCC.
 #'
 #' @param r \code{RasterStack} with annual values of the climatic variable for
 #'  the period of interest.
-#' @param th \code{Integer} max number of observations in the series needed to 
+#' @param th \code{Integer} max number of observations in the series needed to
 #' calculate the trend at each cell.
 #'
-#' @return A \code{RasterStack} containing annual trends 
-#' ("slpTrends" in degree celsius per year) and their associated SE ("seTrends")  
-#' and statistical significance("sigTrends"). 
+#' @return A \code{RasterStack} containing annual trends
+#' ("slpTrends" in degree celsius per year) and their associated SE ("seTrends")
+#' and statistical significance("sigTrends").
 #'
 #' @import raster
 #' @export
-#' @author Jorge Garcia Molinos and Christopher J. Brown 
+#' @author Jorge Garcia Molinos and Christopher J. Brown
+#' @examples
+#'
+#' data(HSST_Eu)
+#' yrSST <- sumSeries(HSST_Eu, p = "1969-01/2009-12", yr0 = "1950-01-01", l = nlayers(HSST_Eu), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+#'
+#' # Mean annual SST simple linear trend (minimum threshold of 10 years of data), with associated SE and p-values.
+#'
+#' tr <- tempTrend(yrSST, th = 10)
+#'
+#' plot(tempTrend)
+#'
 #' @rdname tempTrend
 
 tempTrend <- function(r, th) {
