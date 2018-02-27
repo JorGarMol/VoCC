@@ -15,20 +15,15 @@
 #' @return a \code{data.frame} containing the coordinates ("x", "y") of the constituent
 #' points and identification number ("trajIDs") for each trajectory.
 #'
-#' @import raster sp
 #' @importFrom geosphere destPoint distGeo
 #' @export
 #' @author Jorge Garcia Molinos
 #' @examples
 #'
-#' data(HSST_Eu)
-#' yrSST <- sumSeries(HSST_Eu, p = "1969-01/2009-12", yr0 = "1950-01-01", l = nlayers(HSST_Eu), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
-#' tr <- tempTrend(yrSST, th = 10)
-#' sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
-#' v <- lVoCC(tr,sg)
-#' vel <- v[[1]]
-#' ang <- v[[2]]
-#' mn <- raster::calc(yrSST, mean, na.rm=T)
+#' data(voccSST)
+#' mn <- voccSST[[1]]
+#' vel <- voccSST[[2]]
+#' ang <- voccSST[[3]]
 #'
 #' # get the set of starting cells for the trajectories
 #'
@@ -36,7 +31,7 @@
 #'
 #' # Calculate trajectories.
 #'
-#' traj <- voccTraj(lonlat, vel, ang, mn, tyr)
+#' traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50)
 #'
 #' @rdname voccTraj
 
@@ -62,19 +57,19 @@ voccTraj <- function(lonlat, vel, ang, mn, tyr, trajID = 1:nrow(lonlat)){
   land <- "N"  # set to not hit land
   bounce <- "N"  # set to not bounced
 # Calculate the trajectories
-  pb <- txtProgressBar(min = 0, max = 100, style = 3)
+  pb <- utils::txtProgressBar(min = 0, max = 100, style = 3)
   while(sum(remaining <= 0) != nc){  # while there is at least one trajectory active
-  setTxtProgressBar(pb, 100*(sum(remaining <= 0)/nc))
+    utils::setTxtProgressBar(pb, 100*(sum(remaining <= 0)/nc))
 
     llold <- lonlat # Take a copy of lonlat (starting cell xy)
     resto <- which(remaining > 0)    # index with remaining active trajectories
-    fcells <- cellFromXY(vel, llold)     # focal cells
+    fcells <- raster::cellFromXY(vel, llold)     # focal cells
     # Extract lon and lat of landing point for the remaining active trajectories
     # limit the displacement to 2 cell lengths to reduce later the number of intermediate points
     dth <- max(res(vel))*222000
     dis <- ifelse(dth < (abs(vel[fcells[resto]])*remaining[resto]*1000), dth,(abs(vel[fcells[resto]])*remaining[resto]*1000))
     lonlat[resto,] <- as.data.frame(destPoint(llold[resto,], ang[fcells[resto]], dis)) # distance input in meters. The function adjusts internally for -180-180 and pole crossings
-    tcells <- cellFromXY(vel, lonlat)
+    tcells <- raster::cellFromXY(vel, lonlat)
 
 # Step 1. where the trajectory is still in the same cell by tyr, it has terminated.
       # Flag those trajectories by resetting the reminding time to 0 to get them out of the next iteration.
@@ -105,7 +100,7 @@ voccTraj <- function(lonlat, vel, ang, mn, tyr, trajID = 1:nrow(lonlat)){
       # starting and destination cell ids
       oldcell <- fcells[resto]
       # Get the new velocity at the new cells
-      velend <- extract(vel, newcell)
+      velend <- raster::extract(vel, newcell)
       # set remaining time for each of the running trajectories
       remaining[resto][is.na(velend)] <- remaining[resto][is.na(velend)]-((distGeo(llold[resto,][is.na(velend),], oldxy[is.na(velend),])/1000)/abs(vel[fcells[resto]][is.na(velend)]))
       remaining[resto][!is.na(velend)] <- remaining[resto][!is.na(velend)]-((distGeo(llold[resto,][!is.na(velend),], newxy[!is.na(velend),])/1000)/abs(vel[fcells[resto]][!is.na(velend)]))
@@ -120,15 +115,15 @@ voccTraj <- function(lonlat, vel, ang, mn, tyr, trajID = 1:nrow(lonlat)){
       last <- oldcell[!is.na(velend)] # last cell
       if(land == "Y" & bounce == "Y"){ # Given the counter increases each time the trajectory table is updated,
       # where some traj hit land AND bounced in the previous iteration the values were repeated twice for all cells. Hence, need to go 3 steps back instead of 1
-      last2 <- cellFromXY(vel, cbind(llon[(((i-3) * nc) + 1):(((i-3) * nc) + nc)][resto][!is.na(velend)], llat[(((i-3) * nc) + 1):(((i-3) * nc) + nc)][resto][!is.na(velend)]))  # last but one cell
+      last2 <- raster::cellFromXY(vel, cbind(llon[(((i-3) * nc) + 1):(((i-3) * nc) + nc)][resto][!is.na(velend)], llat[(((i-3) * nc) + 1):(((i-3) * nc) + nc)][resto][!is.na(velend)]))  # last but one cell
       land <- "N"  # set back to no hit land
       bounce <- "N"
       }else if(xor(land == "Y", bounce == "Y")){  # if one of the two conditions then need to go two steps back
-      last2 <- cellFromXY(vel, cbind(llon[(((i-2) * nc) + 1):(((i-2) * nc) + nc)][resto][!is.na(velend)], llat[(((i-2) * nc) + 1):(((i-2) * nc) + nc)][resto][!is.na(velend)]))
+      last2 <- raster::cellFromXY(vel, cbind(llon[(((i-2) * nc) + 1):(((i-2) * nc) + nc)][resto][!is.na(velend)], llat[(((i-2) * nc) + 1):(((i-2) * nc) + nc)][resto][!is.na(velend)]))
       land <- "N"
       bounce <- "N"
       }else{    # if non of the two, then just one step back
-      last2 <- cellFromXY(vel, cbind(llon[(((i-1) * nc) + 1):(((i-1) * nc) + nc)][resto][!is.na(velend)], llat[(((i-1) * nc) + 1):(((i-1) * nc) + nc)][resto][!is.na(velend)]))
+      last2 <- raster::cellFromXY(vel, cbind(llon[(((i-1) * nc) + 1):(((i-1) * nc) + nc)][resto][!is.na(velend)], llat[(((i-1) * nc) + 1):(((i-1) * nc) + nc)][resto][!is.na(velend)]))
       }
       # Identify the bouncing trajectories
       ind <- which(current == last2 & current != last)
@@ -185,7 +180,7 @@ voccTraj <- function(lonlat, vel, ang, mn, tyr, trajID = 1:nrow(lonlat)){
       lonlat[resto,][!is.na(velend),][ind,][rest,] <- newxy[!is.na(velend),][ind,][rest,]
       # update the velocity at new cells (some of the redirected bouncing trajectories might have ended in a land cell)
       newcell[!is.na(velend)][ind][rest] <- cellFromXY(vel, newxy[!is.na(velend),][ind,][rest,])
-      velend[!is.na(velend)][ind][rest] <- extract(vel, cellFromXY(vel, newxy[!is.na(velend),][ind,][rest,]))
+      velend[!is.na(velend)][ind][rest] <- raster::extract(vel, cellFromXY(vel, newxy[!is.na(velend),][ind,][rest,]))
       }}
      }
 

@@ -23,20 +23,23 @@
 #' (2) slow-moving, (3) internal sinks, (4) boundary sinks, (5) sources, (6) relative sinks, (7) corridors,
 #' (8) divergence and (9) convergence.
 #'
+#' @import data.table
+#' @export
+#' @author Jorge Garcia Molinos
 #' @examples
 #'
 #' # Load trajectories generated from 0.25-degree global grid
 #' data(traj25)
 #'
-#' clas <- trajClas(traj25, vel, ang, trajSt = 16, tyr = 50, nmL = 20, smL = 100, Nend = 45, Nst = 15, NFT = 70)
+#' clas <- trajClas(traj25, vel, ang, trajSt = 16, tyr = 50, nmL = 20, smL = 100, Nend = 45,
+#' Nst = 15, NFT = 70)
 #'
-#' my_col = c('gainsboro','darkseagreen1','coral4','firebrick2','mediumblue','darkorange1','magenta1','cadetblue1','yellow1')
+#' my_col = c('gainsboro','darkseagreen1','coral4','firebrick2','mediumblue','darkorange1',
+#' 'magenta1','cadetblue1','yellow1')
 #' plot(clas[[7]], legend = FALSE, col = my_col)
-#' legend(x='bottomleft', legend = c("N-M", "S-M", "IS", "BS", "Srce", "RS", "Cor", "Div", "Con"), fill = my_col,horiz = TRUE, cex = 0.7)
+#' legend(x='bottomleft', legend = c("N-M", "S-M", "IS", "BS", "Srce", "RS", "Cor", "Div", "Con"),
+#' fill = my_col,horiz = TRUE, cex = 0.7)
 #'
-#' @import raster data.table
-#' @export
-#' @author Jorge Garcia Molinos
 #' @rdname trajClas
 
 trajClas <- function(traj, vel, ang, trajSt, tyr, nmL, smL , Nend, Nst, NFT){

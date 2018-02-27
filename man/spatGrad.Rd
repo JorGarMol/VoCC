@@ -8,23 +8,35 @@ spatGrad(r, th = -Inf, projected = FALSE)
 }
 \arguments{
 \item{r}{\code{RasterStack} with the annual climatic values for the period of interest.
-Alternatively, a \code{raster} with the annual climatic values averaged 
+Alternatively, a \code{raster} with the annual climatic values averaged
 over the period of interest.}
 
-\item{th}{\code{Integer} indicating a lower thershold to truncate the spatial 
+\item{th}{\code{Integer} indicating a lower thershold to truncate the spatial
 gradient with. Use -Inf (default) if no threshold required.}
 
-\item{projected}{\code{Logical} is the source raster in a projected coordinate system? 
+\item{projected}{\code{Logical} is the source raster in a projected coordinate system?
 If FALSE (default) a correction will be made to account for latitudinal distortion.}
 }
 \value{
-A \code{RasterStack} with the magnitude of the spatial gradient 
-(Grad in C per km for unprojected rasters and C per spatial unit for projected rasters), 
+A \code{RasterStack} with the magnitude of the spatial gradient
+(Grad in C per km for unprojected rasters and C per spatial unit for projected rasters),
 and the associated angle (Ang in degrees C),
 }
 \description{
-Function to calculate the magnitude and direction of the spatial gradient 
+Function to calculate the magnitude and direction of the spatial gradient
 associated ot a climatic variable after Burrows et al. 2011.
+}
+\examples{
+
+data(HSST)
+yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+
+# Spatial gradient (magnitude and angle) for the average mean annual SST.
+
+sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
+
+plot(sg)
+
 }
 \author{
 Jorge Garcia Molinos, David S. Schoeman, and Michael T. Burrows

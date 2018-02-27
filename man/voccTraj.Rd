@@ -24,10 +24,30 @@ points and identification number ("trajIDs") for each trajectory.
 }
 \description{
 Function to calculate vocc trajectories after Burrows et al (2014). Trajectories
-are calculated by propagating climatic isopleths using the magnitude and direction of 
+are calculated by propagating climatic isopleths using the magnitude and direction of
 local (cell) velocities. This is a slightly modified version of the original Burrows et al. (2014)
 approach in that iterations of a trajectory are based on cumulative time travelled instead of using fixed time steps.
 }
+\examples{
+
+data(HSST)
+yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+tr <- tempTrend(yrSST, th = 10)
+sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
+v <- lVoCC(tr,sg)
+vel <- v[[1]]
+ang <- v[[2]]
+mn <- raster::calc(yrSST, mean, na.rm=T)
+
+# get the set of starting cells for the trajectories
+
+lonlat <- na.omit(data.frame(xyFromCell(vel, 1:ncell(vel)), vel[], ang[], mn[]))[,1:2]
+
+# Calculate trajectories.
+
+traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50)
+
+}
 \author{
-Jorge Garcia Molinos and David S. Schoeman
+Jorge Garcia Molinos
 }

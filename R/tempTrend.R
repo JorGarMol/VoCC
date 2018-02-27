@@ -13,19 +13,18 @@
 #' ("slpTrends" in degree celsius per year) and their associated SE ("seTrends")
 #' and statistical significance("sigTrends").
 #'
-#' @import raster
 #' @export
 #' @author Jorge Garcia Molinos and Christopher J. Brown
 #' @examples
 #'
-#' data(HSST_Eu)
-#' yrSST <- sumSeries(HSST_Eu, p = "1969-01/2009-12", yr0 = "1950-01-01", l = nlayers(HSST_Eu), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+#' data(HSST)
+#' yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
 #'
 #' # Mean annual SST simple linear trend (minimum threshold of 10 years of data), with associated SE and p-values.
 #'
 #' tr <- tempTrend(yrSST, th = 10)
 #'
-#' plot(tempTrend)
+#' plot(tr)
 #'
 #' @rdname tempTrend
 

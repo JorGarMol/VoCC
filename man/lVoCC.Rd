@@ -12,13 +12,26 @@ lVoCC(tempTrend, spatGrad)
 \item{spatGrad}{The output from the tempTrend function containing the magnitudes and angles for the spatial climatic gradient.}
 }
 \value{
-A \code{RasterStack} containing the climate velocity magnitude ("voccMag",  
+A \code{RasterStack} containing the climate velocity magnitude ("voccMag",
 km/yr for unprojected rasters and spatial unit/year for projected rasters) and
 angle("voccAng" in degrees C).
 }
 \description{
-Function to calculate the velocity of climate change after Burrows et al. 2011 
+Function to calculate the velocity of climate change after Burrows et al. 2011
 based on local climatic temporal trends and spatial gradients.
+}
+\examples{
+
+data(HSST)
+yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+tr <- tempTrend(yrSST, th = 10)
+sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
+
+# Magnitude and angle of the climate velocity (km/yr) 1960-2009
+
+v <- lVoCC(tr,sg)
+plot(v)
+
 }
 \author{
 Jorge Garcia Molinos

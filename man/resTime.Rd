@@ -7,7 +7,7 @@
 resTime(pg, vel, areapg = NA)
 }
 \arguments{
-\item{pg}{\code{SpatialPolygon} or a \code{SpatialPolygonsDataFrame} containing the polygons for which 
+\item{pg}{\code{SpatialPolygon} or a \code{SpatialPolygonsDataFrame} containing the polygons for which
 the residence time is to be calculated. The polygons must be on the same coordinate system as vel.}
 
 \item{vel}{\code{raster} with local climate velocity (km/year) for the period of interest.}
@@ -20,6 +20,18 @@ diameter of the equivalent circle (km), and residence time (years) as the ratio 
 }
 \description{
 Function to calculate vocc residence time of a polygon after Loaire et al. (2009)
+}
+\examples{
+
+# Load example Exclusive Economic Zone polygons
+
+data(EEZs)
+# Calculating area internally
+a1 <- resTime(EEZs, vel, areapg = NA)
+a1
+# Using the area field from the polygon data table
+a2 <- resTime(EEZs, vel, areapg = EEZs$Area_km2)
+a2
 }
 \author{
 Jorge Garcia Molinos

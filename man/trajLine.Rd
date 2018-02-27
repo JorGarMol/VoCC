@@ -13,12 +13,28 @@ points and identification number (trajIDs) for each trajectory as returned by Vo
 \value{
 A \code{SpatialLinesDataFrame} with one line per trajectory as specified in x.
 To avoid artifacts, trajectories crossing the date line need to be splitted into two segments.
-Where the trajectory on one side of the date line is only composed of a single point, 
-the trajectory won't be displayed (no line object created). The function assumes 
+Where the trajectory on one side of the date line is only composed of a single point,
+the trajectory won't be displayed (no line object created). The function assumes
 a -180 to 180 longitudinal arrengment.
 }
 \description{
 Create a spatial line data frame object from trajectory points.
+}
+\examples{
+
+data(voccSST)
+mn <- voccSST[[1]]
+vel <- voccSST[[2]]
+ang <- voccSST[[3]]
+lonlat <- na.omit(data.frame(xyFromCell(vel, 1:ncell(vel)), vel[], ang[], mn[]))[,1:2]
+traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50)
+
+# create a spatial line data frame from traj
+
+lns <- trajLine(traj)
+plot(mn)
+plot(lns, add = TRUE)
+
 }
 \author{
 Jorge Garcia Molinos

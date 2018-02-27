@@ -11,21 +11,17 @@
 #' the trajectory won't be displayed (no line object created). The function assumes
 #' a -180 to 180 longitudinal arrengment.
 #'
-#' @importFrom sp SpatialLinesDataFrame SpatialLines coordinates Line
+#' @import sp
 #' @export
 #' @author Jorge Garcia Molinos
 #' @examples
 #'
-#' data(HSST_Eu)
-#' yrSST <- sumSeries(HSST_Eu, p = "1969-01/2009-12", yr0 = "1950-01-01", l = nlayers(HSST_Eu), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
-#' tr <- tempTrend(yrSST, th = 10)
-#' sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
-#' v <- lVoCC(tr,sg)
-#' vel <- v[[1]]
-#' ang <- v[[2]]
-#' mn <- raster::calc(yrSST, mean, na.rm=T)
+#' data(voccSST)
+#' mn <- voccSST[[1]]
+#' vel <- voccSST[[2]]
+#' ang <- voccSST[[3]]
 #' lonlat <- na.omit(data.frame(xyFromCell(vel, 1:ncell(vel)), vel[], ang[], mn[]))[,1:2]
-#' traj <- voccTraj(lonlat, vel, ang, mn, tyr)
+#' traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50)
 #'
 #' # create a spatial line data frame from traj
 #'

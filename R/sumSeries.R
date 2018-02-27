@@ -24,35 +24,39 @@
 #'  \url{https://CRAN.R-project.org/package=xts}
 #'  Henrik Bengtsson (2018). matrixStats: Functions that Apply to Rows and Columns of Matrices (and to Vectors). R package version 0.53.1.
 #'  \url{https://CRAN.R-project.org/package=matrixStats}
-#' @import raster xts
+#'
 #' @importFrom matrixStats colMaxs colMins
+#' @importFrom xts xts apply.weekly apply.monthly apply.quarterly apply.yearly
 #' @export
 #' @author Jorge Garcia Molinos
 #' @examples
 #' # Load monthly mean SST (HadISST) data for Europe Jan-1950 to Dec-2010
 #'
-#' data(HSST_Eu)
+#' data(HSST)
 #'
 #' # Calculate mean annual monthly SST
 #'
-#' yrSST <- sumSeries(HSST_Eu, p = "1969-01/2009-12", yr0 = "1950-01-01", l = nlayers(HSST_Eu), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+#' yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
+#' fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
 #'
 #' # Extract Jul Aug mean SST each year (xts months are indexed from 0 to 11)
 #'
 #' myf = function(x, m = c(7,8)){
-#' x[.indexmon(x) %in% (m-1)]
+#' x[xts::.indexmon(x) %in% (m-1)]
 #' }
 #'
-#' JlAugSST <- sumSeries(HSST_Eu, p = "1969-01/2009-12", yr0 = "1950-01-01", l = nlayers(HSST_Eu), fun = myf, freqin = "months", freqout = "other")
+#' JlAugSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1950-01-01", l = raster::nlayers(HSST),
+#' fun = myf, freqin = "months", freqout = "other")
 #'
 #' # Same but calculating the annual variance of the two months
 #'
 #' myf = function(x, m = c(7,8)){
-#' x1 <- x[.indexmon(x) %in% (m-1)]
-#' apply.yearly(x1, function(y) apply(y, 2, function(y){var(y, na.rm = TRUE)}))
+#' x1 <- x[xts::.indexmon(x) %in% (m-1)]
+#' xts::apply.yearly(x1, function(y) apply(y, 2, function(y){var(y, na.rm = TRUE)}))
 #' }
 #'
-#' meanJASST <- sumSeries(HSST_Eu, p = "1969-01/2009-12", yr0 = "1950-01-01", l = nlayers(HSST_Eu), fun = myf, freqin = "months", freqout = "other")
+#' meanJASST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1950-01-01", l = raster::nlayers(HSST),
+#' fun = myf, freqin = "months", freqout = "other")
 #'
 #' @rdname sumSeries
 

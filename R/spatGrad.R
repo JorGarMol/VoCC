@@ -15,14 +15,15 @@
 #' (Grad in C per km for unprojected rasters and C per spatial unit for projected rasters),
 #' and the associated angle (Ang in degrees C),
 #'
-#' @import raster data.table
+#' @import data.table
 #' @importFrom CircStats rad deg
 #' @export
 #' @author Jorge Garcia Molinos, David S. Schoeman, and Michael T. Burrows
 #' @examples
 #'
-#' data(HSST_Eu)
-#' yrSST <- sumSeries(HSST_Eu, p = "1969-01/2009-12", yr0 = "1950-01-01", l = nlayers(HSST_Eu), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+#' data(HSST)
+#' yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
+#' fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
 #'
 #' # Spatial gradient (magnitude and angle) for the average mean annual SST.
 #'
@@ -33,11 +34,11 @@
 #' @rdname spatGrad
 
 spatGrad <- function(r, th = -Inf, projected = FALSE){
-  if(nlayers(r) > 1){r <- calc(r, mean, na.rm=T)}
+  if(raster::nlayers(r) > 1){r <- raster::calc(r, mean, na.rm=T)}
   # get resolution of the raster
-  re <- res(r)
+  re <- raster::res(r)
   # Create a columns for focal and each of its 8 adjacent cells
-  y <- data.table(adjacent(r, 1:ncell(r), directions = 8, pairs = TRUE))
+  y <- data.table(raster::adjacent(r, 1:ncell(r), directions = 8, pairs = TRUE))
   y <- na.omit(y[, climFocal := getValues(r)[from]][order(from, to)])   # Get value for focal cell, order the table by raster sequence and omit NAs (land cells)
   y[, clim := getValues(r)[to]] # Insert values for adjacent cells
   y[, sy := rowFromCell(r, from)-rowFromCell(r, to)]  # Column to identify rows in the raster (N = 1, mid = 0, S = -1)
@@ -75,8 +76,8 @@ spatGrad <- function(r, th = -Inf, projected = FALSE){
   y[, gradNS6 := (climE-climSE)/(d*re[2])]
 
 # Calulate NS and WE gradients. NOTE: for angles to work (at least using simple positive and negative values on Cartesian axes), S-N & W-E gradients need to be positive)
-	y[, WEgrad := apply(.SD, 1, function(x) weighted.mean(x, c(1,2,1,1,2,1), na.rm = T)), .SDcols = 12:17]
-  y[, NSgrad := apply(.SD, 1, function(x) weighted.mean(x, c(1,2,1,1,2,1), na.rm = T)), .SDcols = 18:23]
+	y[, WEgrad := apply(.SD, 1, function(x) stats::weighted.mean(x, c(1,2,1,1,2,1), na.rm = T)), .SDcols = 12:17]
+  y[, NSgrad := apply(.SD, 1, function(x) stats::weighted.mean(x, c(1,2,1,1,2,1), na.rm = T)), .SDcols = 18:23]
   y[is.na(WEgrad) & !is.na(NSgrad), WEgrad := 0L]     # Where NSgrad does not exist, but WEgrad does, make NSgrad 0
   y[!is.na(WEgrad) & is.na(NSgrad), NSgrad := 0L]     # same the other way around
 
@@ -91,10 +92,10 @@ spatGrad <- function(r, th = -Inf, projected = FALSE){
 	from <- data.table(1:ncell(r)) # Make ordered from cells
   y <- y[from]   # merge both
 
-  rAng <- rGrad <- raster(r)
+  rAng <- rGrad <- raster::raster(r)
   rAng[y$from] <- y$angle
   rGrad[y$from] <- y$Grad
-  output <- stack(rGrad,rAng)
+  output <- raster::stack(rGrad,rAng)
   names(output) <- c("Grad", "Ang")
   return(output)
 

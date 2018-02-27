@@ -7,7 +7,7 @@
 trajClas(traj, vel, ang, trajSt, tyr, nmL, smL, Nend, Nst, NFT)
 }
 \arguments{
-\item{traj}{\code{data.frame} as retuned by voccTraj containing the coordinates 
+\item{traj}{\code{data.frame} as retuned by voccTraj containing the coordinates
 and identification number for each trajectory.}
 
 \item{vel}{\code{raster} with the magnitude of local climate velocity.}
@@ -18,7 +18,7 @@ and identification number for each trajectory.}
 
 \item{tyr}{\code{integer} number of years comprising the period of interest.}
 
-\item{nmL}{\code{numeric} upper threshold (distance units as per vel object) up to which 
+\item{nmL}{\code{numeric} upper threshold (distance units as per vel object) up to which
 a trajectory is considered to have traveled a negiglibe distance over the study period (non-moving).}
 
 \item{smL}{\code{numeric} upper threshold up to which a trajectory is considered to have traveled a small
@@ -31,24 +31,26 @@ distance over the study period (slow-moving).}
 \item{NFT}{\code{numeric} the percentage of trajectories flowing through to be used as threshold in the classification (see Burrows et al. 2014).}
 }
 \value{
-a \code{raster.stack} containing the trajectory classification ("TrajClas"), 
+a \code{raster.stack} containing the trajectory classification ("TrajClas"),
 as well as those based on trajectory length ("ClassL"; 1 non-moving, 2 slow-moving, 3 fast-moving cells),
-boundrary ("BounS") and internal sinks ("IntS"), and the proportion of trajectories ending("PropEnd"), 
-flowing through ("PropFT") and starting ("PropSt"). The trajectory classes ("TrajClas") are (1) non-moving, 
-(2) slow-moving, (3) internal sinks, (4) boundary sinks, (5) sources, (6) relative sinks, (7) corridors, 
+boundrary ("BounS") and internal sinks ("IntS"), and the proportion of trajectories ending("PropEnd"),
+flowing through ("PropFT") and starting ("PropSt"). The trajectory classes ("TrajClas") are (1) non-moving,
+(2) slow-moving, (3) internal sinks, (4) boundary sinks, (5) sources, (6) relative sinks, (7) corridors,
 (8) divergence and (9) convergence.
 }
 \description{
 Function for the spatial classification of cells based on vocc trajectories after Burrows et al (2014).
 }
 \examples{
-\dontrun{
+
+# Load trajectories generated from 0.25-degree global grid
 data(traj25)
+
 clas <- trajClas(traj25, vel, ang, trajSt = 16, tyr = 50, nmL = 20, smL = 100, Nend = 45, Nst = 15, NFT = 70)
+
 my_col = c('gainsboro','darkseagreen1','coral4','firebrick2','mediumblue','darkorange1','magenta1','cadetblue1','yellow1')
 plot(clas[[7]], legend = FALSE, col = my_col)
 legend(x='bottomleft', legend = c("N-M", "S-M", "IS", "BS", "Srce", "RS", "Cor", "Div", "Con"), fill = my_col,horiz = TRUE, cex = 0.7)
-}
 
 }
 \author{

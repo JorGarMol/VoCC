@@ -7,24 +7,30 @@
 shiftTime(rasStack, yr1, yr2, yr0, th, month)
 }
 \arguments{
-\item{rasStack}{\code{stack} with monthly values of the climatic 
+\item{rasStack}{\code{stack} with monthly values of the climatic
 variable for the period of interest.}
 
-\item{yr0, 1, 2}{\code{integer} specifying the first (yr0) year in the series, 
+\item{yr0, 1, 2}{\code{integer} specifying the first (yr0) year in the series,
 and the initial (yr1) and end (yr2) years for the period of interest.}
 
-\item{th}{\code{integer} max number of non NAs in the series needed to 
+\item{th}{\code{integer} max number of non NAs in the series needed to
 calculate the trend (default 3).}
 
 \item{month}{\code{integer} number (1-12) of the month for which the shift is to be calculated}
 }
 \value{
-a \code{stack} with the long-term monthly trend (C/year; "mTrend"), 
+a \code{stack} with the long-term monthly trend (C/year; "mTrend"),
 seasonal rate of change (C/month; "seaRate"), and seasonal shift (day/month; "seaShift").
 }
 \description{
-Function to calculate the seasonal shift in the arriving of mean monthly temperatures 
+Function to calculate the seasonal shift in the arriving of mean monthly temperatures
 for the study period as per Burrows et al. 2011.
+}
+\examples{
+data(HSST)
+Apr <- shiftTime(HSST, yr1 = 1960, yr2 = 2009, yr0 = 1955, th = 10, month = 4)
+plot(Apr)
+
 }
 \author{
 Jorge Garcia Molinos and Michael T. Burrows
