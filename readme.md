@@ -1,10 +1,10 @@
 # Functions for Calculating the Velocity of Climate Change
 
-J Molinos et al. 28 Feb 2018
+Jorge Garcia Molinos et al. 28 Feb 2018
 
 This package is currently under development.
 
-Contact Jorge with any questions.
+Please contact [me](jorgegmolinos@arc.hokudai.ac.jp) if you use it or for questions or feed-back.
 
 
 ## Installation
@@ -17,3 +17,7 @@ Then, you can install vocc:
 
     devtools::install_github("JorGarMol/VoCC")
     library(VoCC)
+
+## License
+
+GNU Affero General Public License v3.0
