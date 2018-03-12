@@ -61,10 +61,9 @@
 #' @rdname sumSeries
 
 sumSeries <- function(r, p = "1969-01/2009-12", yr0 = "1870-01-01", l = nlayers(r), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years"){
-t0 = as.Date(yr0)
 # construct xts object
 m <- t(getValues(r))
-dates <- seq(as.Date(t0), length = l, by = freqin)
+dates <- seq(as.Date(yr0), length = l, by = freqin)
 ts1 <- xts(m, order.by = dates)
 # subset for the period of interest
 x <- ts1[p]
