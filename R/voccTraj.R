@@ -9,8 +9,16 @@
 #' of the points to project.
 #' @param vel \code{raster} with the magnitude of local climate velocity.
 #' @param ang \code{raster} with velocity angles.
-#' @param mn \code{raster} with the overal mean annual climatic value over the period of interest.
-#' @param tyr \code{integer} number of years comprising the period of interest.
+#' @param mn \code{raster} with the overall mean climatic value over the period of interest.
+#' @param tyr \code{integer} temporal length of the period of interest.
+#' @param correct \code{logical} does the input raster need to be corrected to account for cropped margins?
+#' Unless the raster extent is global, calculation of trajectories will throw an error at the margins
+#' as the trajectories go beyond the raster extent (no input values). To avoid this, an option is given for
+#' expanding the extent by the resolution of the raster (1 column/row) with NAs. Note that those trajectories
+#' reaching the extent limits will be artificially bounced back so should be discarded at that point.
+#' Alternatively, users may choose to crop to a larger extent to the domain of interest (appropriately
+#' defined by lonlat), so the extra extent buffer for those trajectories getting to the border
+#' of the raster.
 #'
 #' @return a \code{data.frame} containing the coordinates ("x", "y") of the constituent
 #' points and identification number ("trajIDs") for each trajectory.
@@ -36,7 +44,14 @@
 #' @rdname voccTraj
 
 
-voccTraj <- function(lonlat, vel, ang, mn, tyr, trajID = 1:nrow(lonlat)){
+voccTraj <- function(lonlat, vel, ang, mn, tyr, correct = TRUE){
+
+  if(correct == TRUE){
+    e <- extent(vel)+(rep(res(vel), each = 2)*c(-1,1,-1,1))
+    vel <- extend(vel, e, value = NA)
+    ang <- extend(ang, e, value = NA)
+    mn <- extend(mn, e, value = NA)
+  }
 
 # make sure all raster has consistent NAs
   vel[is.na(ang)] <- NA
@@ -44,6 +59,7 @@ voccTraj <- function(lonlat, vel, ang, mn, tyr, trajID = 1:nrow(lonlat)){
   ang[is.na(vel)] <- NA
   mn[is.na(vel)] <- NA
 # Set up variables to catch results, allocating the right amount of memory
+  trajID <- 1:nrow(lonlat)
   nc <- nrow(lonlat)
   remaining <- rep(tyr, nc) # String containing the time remaining for each trajectory
   llon <- rep(NA, (nc * tyr) + nc)  # Starting lons, plus one more set for each iteration
@@ -188,6 +204,8 @@ voccTraj <- function(lonlat, vel, ang, mn, tyr, trajID = 1:nrow(lonlat)){
      if(sum(is.na(velend)) > 0){
       land <- "Y"      # to know if land was hit in the next loop when looking at bouncing trajectories
       onland <- which(is.na(velend))  # Identify which rows of velend are on land
+      # break and produce error if trajectories go beyond raster extent
+      if(anyNA(newcell[onland])) {stop('Trajectories beyond raster extent - set correct = TRUE or limit lonlat to a sufficiently smaller domain relative to current raster extent')}
       # For each cell that ends on land, look for a suitable target cell...
       # Make list of candidate cell IDs: overlap between cells adjacent to "from" (fcells[is.na(sflags)][onland]) AND "to" (newcell[onland])cells
       # that are in the direction of movement (any other cells would mean "un-natural" movements).
