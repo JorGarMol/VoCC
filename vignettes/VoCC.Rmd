@@ -1,0 +1,92 @@
+---
+title: "Introduction to VoCC"
+author: "J Molinos, CJ Brown"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction to the VoCC package
+
+DRAFT 17 Mar 2018 
+
+This package contains functions for calculating the VoCC based on:
+Functions based on [Burrows MT, Schoeman DS, Buckley LB, Moore P, Poloczanska ES, Brander KM, Brown C, Bruno JF, Duarte CM, Halpern BS, Holding J. The pace of shifting climate in marine and terrestrial ecosystems. Science. 2011 Nov 4;334(6056):652-5.](http://science.sciencemag.org/content/334/6056/652).
+
+## Simple guide to calculating the VoCC
+
+First load the test version of the package and a raster-brick of sea surface temperature data derived from the [HadISST](https://www.metoffice.gov.uk/hadobs/hadisst/data/download.html) database:
+
+```{r fig.width = 10, fig.height = 7, warning=FALSE, message = FALSE}
+
+library(VoCC)
+data(HSST)
+```  
+
+Now summarize the SST series to get annual means:  
+
+```{r}
+yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST), fun = function(x) colMeans(x, na.rm = TRUE),
+freqin = "months", freqout = "years")
+```
+
+Then calculate the trend per pixel:
+
+```{r}
+tr <- tempTrend(yrSST, th = 10)
+```
+
+Then get the mean temperature for a time period and calculate the spatial gradient:
+
+
+```{r}
+sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
+```
+
+Now we can calculate the VoCC:
+
+```{r}
+v <- lVoCC(tr,sg)
+plot(v)
+```
+
+## Nearest distance method
+
+You could also calculate the velocity using the nearest distance method: 
+
+```{r fig.width = 5, fig.height = 5}
+tol <- 0.1
+pre <- raster(yrSST)
+tdiff <- 50
+post <- raster(yrSST, tdiff)
+units <- 1000
+rvocc <- distvocc(pre, post, tdiff, tol, denom = units)
+plot(rvocc)
+```
+
+This method calculates the velocity as thedistance to the nearest climate analogue over the time between the `pre` and `post` layers (`tdiff`). 
+`tol` sets the tolerance for what is analogous climate conditions, e.g. `tol=0.1` in this case sets intervals of 0.1 degrees C.  
+
+## Citing this package and the methods used herein 
+
+Citations for the methods can be found here: 
+
+```{r}
+citation("vocc")
+```
+
+
+The description of the basic velocity method is found in:
+
+Loarie SR, Duffy PB, Hamilton H, Asner GP, Field CB, Ackerly DD. The velocity of climate change. 2009. Nature. 24:1052-5.
+
+And the citation for the nearest distance method is found in:
+
+Hamann A, Roberts DR, Barber QE, Carroll C, Nielsen SE. 2015. Velocity of climate change algorithms for guiding conservation and management. Global Change Biology. 21:997-1004.
+
+More information about the HadISST data: 
+
+Rayner, N. A.; Parker, D. E.; Horton, E. B.; Folland, C. K.; Alexander, L. V.; Rowell, D. P.; Kent, E. C.; Kaplan, A. (2003) Global analyses of sea surface temperature, sea ice, and night marine air temperature since the late nineteenth century J. Geophys. Res.Vol. 108, No. D14, 4407 10.1029/2002JD002670 
