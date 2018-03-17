@@ -1,0 +1,9 @@
+bibentry(bibtype = "Article",
+         title = "VoCC: An R package for calculating the velocity of climate change and related landscape climatic metrics",
+         author = c(person("Jorge", "Garcia Molinos"),
+		    person("David S.", "Schoeman"),
+		    person("Christopher J.", "Brown"),
+                    person("Michael", "Burrows")),
+        journal = {"TBD"},
+         year = 2018,
+         url = "https://github.com/JorGarMol/VoCC/blob/master/readme.md")
