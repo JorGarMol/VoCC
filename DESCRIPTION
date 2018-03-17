@@ -1,19 +1,20 @@
 Package: VoCC
 Title: The Velocity of Climate Change and related climatic metrics
 Version: 0.0.0.9000
-Authors@R: c(person("Jorge", "García Molinos", email = "jorgegmolinos@arc.hokudai.ac.jp", role = c("aut", "cre")),
+Authors@R: c(person("Jorge", "Garcï¿½a Molinos", email = "jorgegmolinos@arc.hokudai.ac.jp", role = c("aut", "cre")),
     person("David", "S. Schoeman", email = "", role = "aut"),
     person("Christopher", "J. Brown", email = "", role = "aut"),
     person("Michael", "T. Burrows", email = "", role = "aut"))
-Description: Functions to calculate the velocity of climate change (VoCC) and related metrics including 
+Description: Functions to calculate the velocity of climate change (VoCC) and related metrics including
     both gradient-based (Burrows et al. 2011, Burrows et al. 2014), and distance-based (Hamann et a. 2013,
-     García Molinos et al. 2017) approaches.
+     Garcï¿½a Molinos et al. 2017) approaches.
 Depends: R (>= 3.3.2),
     raster
 Imports: CircStats,
     data.table,
     geosphere,
     matrixStats,
+    sf,
     xts
 Suggests: ncdf4
 URL: https://github.com/JorGarMol/VoCC
