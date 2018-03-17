@@ -38,27 +38,26 @@
 #'
 #' @author Christopher J. Brown
 #' @examples
+#'\dontrun{
 #' data(HSST)
-#'
 #' tol <- 0.1
 #' pre <- raster(HSST,1)
-#' post <- raster(HSST, 50*12)
 #' tdiff <- 50
+#' post <- raster(HSST, tdiff*12)
 #' units <- 1000 #convert to km
 #' rvocc <- distvocc(pre, post, tdiff, tol, denom = units)
 #' plot(rvocc)
+#'}
 #' @rdname distVoCC
 #' @export
 
-distVoCC <- function(pre, post, tdiff, tol, denom = 1, distfun = st_distance, ...){
+distVoCC <- function(pre, post, tdiff, tol, denom = 1, distfun = sf::st_distance, ...){
 
 	names(pre) <- "prevar"
 	names(post) <- "postvar"
 
-	datpre <- raster::rasterToPoints(pre, spatial = T) %>%
-		sf::st_as_sf()
-	datpost <- raster::rasterToPoints(post, spatial = T) %>%
-	sf::st_as_sf()
+	datpre <- sf::st_as_sf(raster::rasterToPoints(pre, spatial = T))
+	datpost <- sf::st_as_sf(raster::rasterToPoints(post, spatial = T))
 
 	dat <- sf::st_join(datpre, datpost)
 	ymin <- min(c(datpre$prevar, datpre$postvar))
@@ -69,7 +68,7 @@ distVoCC <- function(pre, post, tdiff, tol, denom = 1, distfun = st_distance, ..
 	dat$postfact <- cut(dat$post, breaks = breaks, labels = FALSE)
 
 	unq <- unique(dat$prefact)
-	xout <- purrr::map(unq, ~.getmindist(.x, dat, distfun = st_distance, ...))
+	xout <- purrr::map(unq, ~.getmindist(.x, dat, distfun = distfun, ...))
 
 	dvocc <- do.call("rbind", xout)
 	dvocc$vocc <- (dvocc$dist/denom)/tdiff
