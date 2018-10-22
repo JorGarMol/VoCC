@@ -5,12 +5,15 @@
 #' local (cell) velocities. This is a slightly modified version of the original Burrows et al. (2014)
 #' approach in that iterations of a trajectory are based on cumulative time travelled instead of using fixed time steps.
 #'
+#' @usage voccTraj(lonlat, vel, ang, mn, tyr, trajID = 1:nrow(lonlat), correct = FALSE)
+#'
 #' @param lonlat \code{data.frame} with the longitude and latitude (in decimal degrees)
 #' of the points to project.
 #' @param vel \code{raster} with the magnitude of local climate velocity.
 #' @param ang \code{raster} with velocity angles.
 #' @param mn \code{raster} with the overall mean climatic value over the period of interest.
 #' @param tyr \code{integer} temporal length of the period of interest.
+#' @param trajID \code{integer} specifying the identifiers for the trajectories.
 #' @param correct \code{logical} does the input raster need to be corrected to account for cropped margins?
 #' Unless the raster extent is global, calculation of trajectories will throw an error at the margins
 #' as the trajectories go beyond the raster extent (no input values). To avoid this, an option is given for
@@ -23,28 +26,37 @@
 #' @return a \code{data.frame} containing the coordinates ("x", "y") of the constituent
 #' points and identification number ("trajIDs") for each trajectory.
 #'
+#' @references \href{https://www.nature.com/articles/nature12976}{Burrows et al. 2014}. Geographical limits to species-range shifts are suggested by climate velocity. Nature, 507, 492-495.
+#'
+#' @seealso{\code{\link{lVoCC}}, \code{\link{trajClas}}}
 #' @importFrom geosphere destPoint distGeo
 #' @export
 #' @author Jorge Garcia Molinos
 #' @examples
 #'
-#' data(voccSST)
-#' mn <- voccSST[[1]]
-#' vel <- voccSST[[2]]
-#' ang <- voccSST[[3]]
+#' data(HSST)
+#' yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
+#' fun = function(x) colMeans(x, na.rm = TRUE),
+#' freqin = "months", freqout = "years")
+#' tr <- tempTrend(yrSST, th = 10)
+#' sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
+#' v <- lVoCC(tr,sg)
+#' vel <- v[[1]]
+#' ang <- v[[2]]
+#'
+#' # calculate the annual SST mean over the period
+#' mn <- calc(r, mean, na.rm = T)
 #'
 #' # get the set of starting cells for the trajectories
-#'
 #' lonlat <- na.omit(data.frame(xyFromCell(vel, 1:ncell(vel)), vel[], ang[], mn[]))[,1:2]
 #'
 #' # Calculate trajectories.
-#'
 #' traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50)
 #'
 #' @rdname voccTraj
 
 
-voccTraj <- function(lonlat, vel, ang, mn, tyr, correct = TRUE){
+voccTraj <- function(lonlat, vel, ang, mn, tyr, trajID = 1:nrow(lonlat), correct = FALSE){
 
   if(correct == TRUE){
     e <- extent(vel)+(rep(res(vel), each = 2)*c(-1,1,-1,1))
@@ -59,7 +71,6 @@ voccTraj <- function(lonlat, vel, ang, mn, tyr, correct = TRUE){
   ang[is.na(vel)] <- NA
   mn[is.na(vel)] <- NA
 # Set up variables to catch results, allocating the right amount of memory
-  trajID <- 1:nrow(lonlat)
   nc <- nrow(lonlat)
   remaining <- rep(tyr, nc) # String containing the time remaining for each trajectory
   llon <- rep(NA, (nc * tyr) + nc)  # Starting lons, plus one more set for each iteration
@@ -352,9 +363,6 @@ trajIDs = rep(trajID,(length(llon)/nc)) # rep(initialcells,(length(llon)/nc))
 traj <- na.omit(data.frame(x = llon, y = llat, trajIDs = trajIDs))
 # remove duplicated points (to keep track of the trajectorie's ID all trajectories are repeated over iterations even if they had terminated)
 traj <- traj[!duplicated(traj),]
-# remove trajectories that are a single point (artificially created because of the sea ice)
-NPtTr <- table(traj$trajIDs)
-traj <- subset(traj, traj$trajIDs %in% which(NPtTr > 1))
 
 return(traj)
 }

@@ -29,7 +29,8 @@ associated ot a climatic variable after Burrows et al. 2011.
 \examples{
 
 data(HSST)
-yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
+fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
 
 # Spatial gradient (magnitude and angle) for the average mean annual SST.
 
@@ -37,6 +38,9 @@ sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
 
 plot(sg)
 
+}
+\references{
+\href{http://science.sciencemag.org/content/334/6056/652}{Burrows et al. 2011}. The pace of shifting climate in marine and terrestrial ecosystems. Science, 334, 652-655.
 }
 \author{
 Jorge Garcia Molinos, David S. Schoeman, and Michael T. Burrows

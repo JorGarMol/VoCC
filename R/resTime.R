@@ -2,6 +2,8 @@
 #'
 #' Function to calculate vocc residence time of a polygon after Loaire et al. (2009)
 #'
+#' @usage resTime(pg, vel, areapg = NA)
+#'
 #' @param pg \code{SpatialPolygon} or a \code{SpatialPolygonsDataFrame} containing the polygons for which
 #' the residence time is to be calculated. The polygons must be on the same coordinate system as vel.
 #' @param vel \code{raster} with local climate velocity (km/year) for the period of interest.
@@ -10,7 +12,11 @@
 #' @return a \code{data.frame} containing for each polygon its ID, mean velocity (km/yr),
 #' diameter of the equivalent circle (km), and residence time (years) as the ratio D/vel.
 #'
-#' @import data.table
+#' @references \href{https://www.nature.com/articles/nature08649}{Loarie et al. 2009}. The velocity of climate change. Nature, 462, 1052-1055.
+#'
+#' @seealso{\code{\link{lVoCC}}}
+#'
+#' @import data.table sp
 #' @export
 #' @author Jorge Garcia Molinos
 #' @examples

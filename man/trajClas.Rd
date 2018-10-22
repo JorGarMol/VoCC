@@ -2,9 +2,9 @@
 % Please edit documentation in R/trajClas.R
 \name{trajClas}
 \alias{trajClas}
-\title{Spatial classification based on climate velocity trajectories}
+\title{Climate velocity trajectory classification}
 \usage{
-trajClas(traj, vel, ang, trajSt, tyr, nmL, smL, Nend, Nst, NFT)
+trajClas(traj, vel, ang, trajSt, tyr, nmL, smL , Nend, Nst, NFT)
 }
 \arguments{
 \item{traj}{\code{data.frame} as retuned by voccTraj containing the coordinates
@@ -16,7 +16,7 @@ and identification number for each trajectory.}
 
 \item{trajSt}{\code{integer} number of trajectories starting from each cell or spatial unit.}
 
-\item{tyr}{\code{integer} number of years comprising the period of interest.}
+\item{tyr}{\code{integer} number of years comprising the projected period.}
 
 \item{nmL}{\code{numeric} upper threshold (distance units as per vel object) up to which
 a trajectory is considered to have traveled a negiglibe distance over the study period (non-moving).}
@@ -24,14 +24,14 @@ a trajectory is considered to have traveled a negiglibe distance over the study 
 \item{smL}{\code{numeric} upper threshold up to which a trajectory is considered to have traveled a small
 distance over the study period (slow-moving).}
 
-\item{Nend}{\code{numeric} the percentage of trajectories ending to be used as threshold in the classification (see Burrows et al. 2014).}
+\item{Nend}{\code{numeric} the percentage of trajectories ending to be used as threshold in the classification.}
 
-\item{Nst}{\code{numeric} the percentage of trajectories starting to be used as threshold in the classification (see Burrows et al. 2014).}
+\item{Nst}{\code{numeric} the percentage of trajectories starting to be used as threshold in the classification.}
 
-\item{NFT}{\code{numeric} the percentage of trajectories flowing through to be used as threshold in the classification (see Burrows et al. 2014).}
+\item{NFT}{\code{numeric} the percentage of trajectories flowing through to be used as threshold in the classification.}
 }
 \value{
-a \code{raster.stack} containing the trajectory classification ("TrajClas"),
+A \code{raster.stack} containing the trajectory classification ("TrajClas"),
 as well as those based on trajectory length ("ClassL"; 1 non-moving, 2 slow-moving, 3 fast-moving cells),
 boundrary ("BounS") and internal sinks ("IntS"), and the proportion of trajectories ending("PropEnd"),
 flowing through ("PropFT") and starting ("PropSt"). The trajectory classes ("TrajClas") are (1) non-moving,
@@ -39,19 +39,40 @@ flowing through ("PropFT") and starting ("PropSt"). The trajectory classes ("Tra
 (8) divergence and (9) convergence.
 }
 \description{
-Function for the spatial classification of cells based on vocc trajectories after Burrows et al (2014).
+Function for the spatial classification of cells based on vocc trajectories after Burrows et al (2014). The function performs
+a hierarchical sequential classification based on length of trajectories, geographical features, and the relative abundance of
+trajectories ending in, starting from and flowing through each cell. Essentially, cells are first classified as non-moving,
+slow-moving and fast-moving relative to the distance a trajectory will cover over the projection period based on local climate velocities.
+Two types of climate sinks are then identified among the fast-moving cells: (i) boundary (e.g., coastal) cells disconnected from cooler (warmer)
+neighbouring cells under a locally warming (cooling) climate, and (ii) locations with endorheic spatial gradients where the velocity angles of
+neighbouring cells converge towards their central point of intersection. Finally, the remaining cells are classified by reference to the total
+number of trajectories per cell based on the proportions of the number of trajectories starting from (Nst), ending in (Nend), and flowing
+through (NFT) a cell over the period. Based on these proportions, cells are classified into five classes: (1) climate sources, when no
+trajectories end in a cell (Nend = 0); (2) relative climate sinks, when the relative number of trajectories ending in a cell is high and the
+proportion of starting trajectories is low; (3) corridors as cells with a high proportion of trajectories passing through; and (4) divergence
+and (5) convergence cells identified from the remaining cells respectively as those where fewer/more trajectories ended than started in that
+cell.
 }
 \examples{
 
 # Load trajectories generated from 0.25-degree global grid
 data(traj25)
 
-clas <- trajClas(traj25, vel, ang, trajSt = 16, tyr = 50, nmL = 20, smL = 100, Nend = 45, Nst = 15, NFT = 70)
+clas <- trajClas(traj25, vel, ang, trajSt = 16, tyr = 50, nmL = 20, smL = 100, Nend = 45,
+Nst = 15, NFT = 70)
 
-my_col = c('gainsboro','darkseagreen1','coral4','firebrick2','mediumblue','darkorange1','magenta1','cadetblue1','yellow1')
+my_col = c('gainsboro','darkseagreen1','coral4','firebrick2','mediumblue','darkorange1',
+'magenta1','cadetblue1','yellow1')
 plot(clas[[7]], legend = FALSE, col = my_col)
-legend(x='bottomleft', legend = c("N-M", "S-M", "IS", "BS", "Srce", "RS", "Cor", "Div", "Con"), fill = my_col,horiz = TRUE, cex = 0.7)
+legend(x='bottomleft', legend = c("N-M", "S-M", "IS", "BS", "Srce", "RS", "Cor", "Div", "Con"),
+fill = my_col,horiz = TRUE, cex = 0.7)
 
+}
+\references{
+\href{https://www.nature.com/articles/nature12976}{Burrows et al. 2014}. Geographical limits to species-range shifts are suggested by climate velocity. Nature, 507, 492-495.
+}
+\seealso{
+{\code{\link{voccTraj}}}
 }
 \author{
 Jorge Garcia Molinos

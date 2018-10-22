@@ -2,7 +2,7 @@
 % Please edit documentation in R/lVoCC.R
 \name{lVoCC}
 \alias{lVoCC}
-\title{Local climate velocity}
+\title{Gradient-based climate velocity}
 \usage{
 lVoCC(tempTrend, spatGrad)
 }
@@ -13,17 +13,18 @@ lVoCC(tempTrend, spatGrad)
 }
 \value{
 A \code{RasterStack} containing the climate velocity magnitude ("voccMag",
-km/yr for unprojected rasters and spatial unit/year for projected rasters) and
-angle("voccAng" in degrees C).
+km/yr for unprojected rasters and spatial unit/year for projected rasters) and angle("voccAng" in degrees C).
 }
 \description{
-Function to calculate the velocity of climate change after Burrows et al. 2011
+Function to calculate the velocity of climate change after Burrows et al. (2011)
 based on local climatic temporal trends and spatial gradients.
 }
 \examples{
 
 data(HSST)
-yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
+fun = function(x) colMeans(x, na.rm = TRUE),
+freqin = "months", freqout = "years")
 tr <- tempTrend(yrSST, th = 10)
 sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
 
@@ -32,6 +33,13 @@ sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
 v <- lVoCC(tr,sg)
 plot(v)
 
+}
+\references{
+\href{http://science.sciencemag.org/content/334/6056/652}{Burrows et al. 2011}. The pace of shifting climate
+in marine and terrestrial ecosystems. Science, 334, 652-655.
+}
+\seealso{
+{\code{\link{tempTrend}}, \code{\link{spatGrad}}}
 }
 \author{
 Jorge Garcia Molinos

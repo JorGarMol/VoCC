@@ -1,27 +1,45 @@
-#' Spatial classification based on climate velocity trajectories
+#' Climate velocity trajectory classification
 #'
-#' Function for the spatial classification of cells based on vocc trajectories after Burrows et al (2014).
+#' Function for the spatial classification of cells based on vocc trajectories after Burrows et al (2014). The function performs
+#' a hierarchical sequential classification based on length of trajectories, geographical features, and the relative abundance of
+#' trajectories ending in, starting from and flowing through each cell. Essentially, cells are first classified as non-moving,
+#' slow-moving and fast-moving relative to the distance a trajectory will cover over the projection period based on local climate velocities.
+#' Two types of climate sinks are then identified among the fast-moving cells: (i) boundary (e.g., coastal) cells disconnected from cooler (warmer)
+#' neighbouring cells under a locally warming (cooling) climate, and (ii) locations with endorheic spatial gradients where the velocity angles of
+#' neighbouring cells converge towards their central point of intersection. Finally, the remaining cells are classified by reference to the total
+#' number of trajectories per cell based on the proportions of the number of trajectories starting from (Nst), ending in (Nend), and flowing
+#' through (NFT) a cell over the period. Based on these proportions, cells are classified into five classes: (1) climate sources, when no
+#' trajectories end in a cell (Nend = 0); (2) relative climate sinks, when the relative number of trajectories ending in a cell is high and the
+#' proportion of starting trajectories is low; (3) corridors as cells with a high proportion of trajectories passing through; and (4) divergence
+#' and (5) convergence cells identified from the remaining cells respectively as those where fewer/more trajectories ended than started in that
+#' cell.
+#'
+#' @usage trajClas(traj, vel, ang, trajSt, tyr, nmL, smL , Nend, Nst, NFT)
 #'
 #' @param traj \code{data.frame} as retuned by voccTraj containing the coordinates
 #' and identification number for each trajectory.
 #' @param vel \code{raster} with the magnitude of local climate velocity.
 #' @param ang \code{raster} with velocity angles.
 #' @param trajSt \code{integer} number of trajectories starting from each cell or spatial unit.
-#' @param tyr \code{integer} number of years comprising the period of interest.
+#' @param tyr \code{integer} number of years comprising the projected period.
 #' @param nmL \code{numeric} upper threshold (distance units as per vel object) up to which
 #' a trajectory is considered to have traveled a negiglibe distance over the study period (non-moving).
 #' @param smL \code{numeric} upper threshold up to which a trajectory is considered to have traveled a small
 #' distance over the study period (slow-moving).
-#' @param Nend \code{numeric} the percentage of trajectories ending to be used as threshold in the classification (see Burrows et al. 2014).
-#' @param Nst \code{numeric} the percentage of trajectories starting to be used as threshold in the classification (see Burrows et al. 2014).
-#' @param NFT \code{numeric} the percentage of trajectories flowing through to be used as threshold in the classification (see Burrows et al. 2014).
+#' @param Nend \code{numeric} the percentage of trajectories ending to be used as threshold in the classification.
+#' @param Nst \code{numeric} the percentage of trajectories starting to be used as threshold in the classification.
+#' @param NFT \code{numeric} the percentage of trajectories flowing through to be used as threshold in the classification.
 #'
-#' @return a \code{raster.stack} containing the trajectory classification ("TrajClas"),
+#' @return A \code{raster.stack} containing the trajectory classification ("TrajClas"),
 #' as well as those based on trajectory length ("ClassL"; 1 non-moving, 2 slow-moving, 3 fast-moving cells),
 #' boundrary ("BounS") and internal sinks ("IntS"), and the proportion of trajectories ending("PropEnd"),
 #' flowing through ("PropFT") and starting ("PropSt"). The trajectory classes ("TrajClas") are (1) non-moving,
 #' (2) slow-moving, (3) internal sinks, (4) boundary sinks, (5) sources, (6) relative sinks, (7) corridors,
 #' (8) divergence and (9) convergence.
+#'
+#' @references \href{https://www.nature.com/articles/nature12976}{Burrows et al. 2014}. Geographical limits to species-range shifts are suggested by climate velocity. Nature, 507, 492-495.
+#'
+#' @seealso{\code{\link{voccTraj}}}
 #'
 #' @import data.table
 #' @export

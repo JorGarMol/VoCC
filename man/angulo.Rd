@@ -6,6 +6,11 @@
 \usage{
 angulo(dx, dy)
 }
+\arguments{
+\item{dx}{\code{numeric} giving the longitudinal gradient component}
+
+\item{dy}{\code{numeric} giving the latitudinal gradient component}
+}
 \description{
 Internal. Angle associated to the spatial gradient
 }

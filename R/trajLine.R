@@ -1,6 +1,8 @@
-#' Trajectory spatial lines
+#' Climate velocity trajectory spatial lines
 #'
 #' Create a spatial line data frame object from trajectory points.
+#'
+#' @usage trajLine(x)
 #'
 #' @param x \code{data.frame} containing the coordinates (x, y) of the constituent
 #' points and identification number (trajIDs) for each trajectory as returned by VoCCTraj.
@@ -11,23 +13,38 @@
 #' the trajectory won't be displayed (no line object created). The function assumes
 #' a -180 to 180 longitudinal arrengment.
 #'
-#' @import sp
+#' @seealso{\code{\link{voccTraj}}}
+#'
 #' @export
 #' @author Jorge Garcia Molinos
 #' @examples
 #'
-#' data(voccSST)
-#' mn <- voccSST[[1]]
-#' vel <- voccSST[[2]]
-#' ang <- voccSST[[3]]
+#' data(HSST)
+#' yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
+#' fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+#' tr <- tempTrend(yrSST, th = 10)
+#' sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
+#' v <- lVoCC(tr,sg)
+#' vel <- v[[1]]
+#' ang <- v[[2]]
+#'
+#' # calculate the annual SST mean over the period
+#' mn <- calc(r, mean, na.rm = T)
+#'
+#' # get the set of starting cells for the trajectories
 #' lonlat <- na.omit(data.frame(xyFromCell(vel, 1:ncell(vel)), vel[], ang[], mn[]))[,1:2]
+#'
+#' # Calculate trajectories.
 #' traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50)
 #'
 #' # create a spatial line data frame from traj
-#'
 #' lns <- trajLine(traj)
 #' plot(mn)
 #' plot(lns, add = TRUE)
+#'
+#' # Export as ESRI shape file
+#'
+#' rgdal::writeOGR(lns, ".", "velTraj", "ESRI Shapefile")
 #'
 #' @rdname trajLine
 

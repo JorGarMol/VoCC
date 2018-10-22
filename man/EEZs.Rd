@@ -10,9 +10,9 @@ Marineregions.org
 \url{http://www.marineregions.org/downloads.php}
 }
 \usage{
-EEZs
+data(EEZs)
 }
 \description{
-Exclusive Economic Zone Boundaries (EEZ, v9)
+A random selection of 10 Exclusive Economic Zones
 }
 \keyword{datasets}

@@ -26,9 +26,10 @@ local climate velocity using lVoCC.
 \examples{
 
 data(HSST)
-yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
+fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
 
-# Mean annual SST simple linear trend (minimum threshold of 10 years of data), with associated SE and p-values.
+# Mean annual SST trend (minimum threshold of 10 years of data), with SE and p-values.
 
 tr <- tempTrend(yrSST, th = 10)
 

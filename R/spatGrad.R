@@ -3,6 +3,8 @@
 #' Function to calculate the magnitude and direction of the spatial gradient
 #' associated ot a climatic variable after Burrows et al. 2011.
 #'
+#' @usage spatGrad(r, th = -Inf, projected = FALSE)
+#'
 #' @param r \code{RasterStack} with the annual climatic values for the period of interest.
 #' Alternatively, a \code{raster} with the annual climatic values averaged
 #' over the period of interest.
@@ -14,6 +16,8 @@
 #' @return A \code{RasterStack} with the magnitude of the spatial gradient
 #' (Grad in C per km for unprojected rasters and C per spatial unit for projected rasters),
 #' and the associated angle (Ang in degrees C),
+#'
+#' @references \href{http://science.sciencemag.org/content/334/6056/652}{Burrows et al. 2011}. The pace of shifting climate in marine and terrestrial ecosystems. Science, 334, 652-655.
 #'
 #' @import data.table
 #' @importFrom CircStats rad deg

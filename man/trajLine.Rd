@@ -2,7 +2,7 @@
 % Please edit documentation in R/trajLine.R
 \name{trajLine}
 \alias{trajLine}
-\title{Trajectory spatial lines}
+\title{Climate velocity trajectory spatial lines}
 \usage{
 trajLine(x)
 }
@@ -22,19 +22,36 @@ Create a spatial line data frame object from trajectory points.
 }
 \examples{
 
-data(voccSST)
-mn <- voccSST[[1]]
-vel <- voccSST[[2]]
-ang <- voccSST[[3]]
+data(HSST)
+yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
+fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+tr <- tempTrend(yrSST, th = 10)
+sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
+v <- lVoCC(tr,sg)
+vel <- v[[1]]
+ang <- v[[2]]
+
+# calculate the annual SST mean over the period
+mn <- calc(r, mean, na.rm = T)
+
+# get the set of starting cells for the trajectories
 lonlat <- na.omit(data.frame(xyFromCell(vel, 1:ncell(vel)), vel[], ang[], mn[]))[,1:2]
+
+# Calculate trajectories.
 traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50)
 
 # create a spatial line data frame from traj
-
 lns <- trajLine(traj)
 plot(mn)
 plot(lns, add = TRUE)
 
+# Export as ESRI shape file
+
+rgdal::writeOGR(lns, ".", "velTraj", "ESRI Shapefile")
+
+}
+\seealso{
+{\code{\link{voccTraj}}}
 }
 \author{
 Jorge Garcia Molinos

@@ -1,18 +1,23 @@
-#' Shift in timing of seasonal temperatures
+#' Shift in timing of seasonal climatology
 #'
-#' Function to calculate the seasonal shift in the arriving of mean monthly temperatures
-#' for the study period as per Burrows et al. 2011.
+#' Function to calculate the seasonal shift in the arriving of seasonal climatology
+#' for a given period of interest as per Burrows et al. 2011.
+#'
+#' @usage shiftTime(r, yr1, yr2, yr0, th, month)
 #'
 #' @param r \code{stack} with monthly values of the climatic
 #' variable for the period of interest.
-#' @param yr0,1,2 \code{integer} specifying the first (yr0) year in the series,
-#' and the initial (yr1) and end (yr2) years for the period of interest.
+#' @param yr0 \code{integer} specifying the first year in the series.
+#' @param yr1 \code{integer} specifying the initial year for the period of interest.
+#' @param yr2 \code{integer} specifying the end year for the period of interest.
 #' @param th \code{integer} max number of non NAs in the series needed to
 #' calculate the trend (default 3).
 #' @param month \code{integer} number (1-12) of the month for which the shift is to be calculated
 #'
 #' @return a \code{stack} with the long-term monthly trend (C/year; "mTrend"),
-#' seasonal rate of change (C/month; "seaRate"), and seasonal shift (day/month; "seaShift").
+#' seasonal rate of change (C/month; "seaRate"), and seasonal shift (day/decade; "seaShift").
+#'
+#' @references \href{http://science.sciencemag.org/content/334/6056/652}{Burrows et al. 2011}. The pace of shifting climate in marine and terrestrial ecosystems. Science, 334, 652-655.
 #'
 #' @export
 #' @author Jorge Garcia Molinos and Michael T. Burrows

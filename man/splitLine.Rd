@@ -6,6 +6,13 @@
 \usage{
 splitLine(A, B, n)
 }
+\arguments{
+\item{A}{\code{numeric} giving coordinates of first point}
+
+\item{B}{\code{numeric} giving coordinates of second point}
+
+\item{n}{\code{numeric} number of segments to divide the distance between points with}
+}
 \description{
 Internal. Split a line segment defined by points A-B into n parts
 }

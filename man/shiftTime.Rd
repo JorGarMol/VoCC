@@ -2,16 +2,19 @@
 % Please edit documentation in R/shiftTime.R
 \name{shiftTime}
 \alias{shiftTime}
-\title{Shift in timing of seasonal temperatures}
+\title{Shift in timing of seasonal climatology}
 \usage{
-shiftTime(rasStack, yr1, yr2, yr0, th, month)
+shiftTime(r, yr1, yr2, yr0, th, month)
 }
 \arguments{
-\item{rasStack}{\code{stack} with monthly values of the climatic
+\item{r}{\code{stack} with monthly values of the climatic
 variable for the period of interest.}
 
-\item{yr0, 1, 2}{\code{integer} specifying the first (yr0) year in the series,
-and the initial (yr1) and end (yr2) years for the period of interest.}
+\item{yr1}{\code{integer} specifying the initial year for the period of interest.}
+
+\item{yr2}{\code{integer} specifying the end year for the period of interest.}
+
+\item{yr0}{\code{integer} specifying the first year in the series.}
 
 \item{th}{\code{integer} max number of non NAs in the series needed to
 calculate the trend (default 3).}
@@ -20,17 +23,20 @@ calculate the trend (default 3).}
 }
 \value{
 a \code{stack} with the long-term monthly trend (C/year; "mTrend"),
-seasonal rate of change (C/month; "seaRate"), and seasonal shift (day/month; "seaShift").
+seasonal rate of change (C/month; "seaRate"), and seasonal shift (day/decade; "seaShift").
 }
 \description{
-Function to calculate the seasonal shift in the arriving of mean monthly temperatures
-for the study period as per Burrows et al. 2011.
+Function to calculate the seasonal shift in the arriving of seasonal climatology
+for a given period of interest as per Burrows et al. 2011.
 }
 \examples{
 data(HSST)
 Apr <- shiftTime(HSST, yr1 = 1960, yr2 = 2009, yr0 = 1955, th = 10, month = 4)
 plot(Apr)
 
+}
+\references{
+\href{http://science.sciencemag.org/content/334/6056/652}{Burrows et al. 2011}. The pace of shifting climate in marine and terrestrial ecosystems. Science, 334, 652-655.
 }
 \author{
 Jorge Garcia Molinos and Michael T. Burrows

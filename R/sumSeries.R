@@ -1,10 +1,13 @@
-#' Summarize climatic series to higher temporal resolutions
+#' Summarize climatic series to higher temporal resolution
 #'
 #' Function to convert climatic series (provided as \code{RasterStack}) into a
 #' coarser time frequency series for a period of interest. This function transforms the \code{RasterStack}
 #' into an \code{xts} time series object to extract the values for the period of interest and
 #' apply some summary function. It is mainly a wrapper from the \code{apply.} function family
 #' in the package xts (Ryan and Ulrich, 2017).
+#'
+#' @usage sumSeries(r, p, yr0, l, fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months",
+#' freqout = "years")
 #'
 #' @param r \code{RasterStack} containing the time series of the climatic variable.
 #' @param p \code{character string} defining the period to extract for the calculation
@@ -20,10 +23,10 @@
 #' allows for user-defined functions to be applied on the 'xts' time series object over the period of interest (see examples).
 #'
 #' @return A \code{RasterStack} with the new series.
-#' @references Jeffrey A. Ryan and Joshua M. Ulrich (2017). xts: eXtensible Time Series. R package version 0.10-1.
-#'  \url{https://CRAN.R-project.org/package=xts}
-#'  Henrik Bengtsson (2018). matrixStats: Functions that Apply to Rows and Columns of Matrices (and to Vectors). R package version 0.53.1.
-#'  \url{https://CRAN.R-project.org/package=matrixStats}
+#'
+#' @references \href{https://CRAN.R-project.org/package=xts}{Ray and Ulrich. 2017}. xts: eXtensible Time Series. R package version 0.10-1. \cr
+#' \href{https://CRAN.R-project.org/package=matrixStats}{Bengtsson. 2018}. matrixStats: Functions that Apply to Rows and Columns
+#' of Matrices (and to Vectors). R package version 0.53.1.
 #'
 #' @importFrom matrixStats colMaxs colMins
 #' @importFrom xts xts apply.weekly apply.monthly apply.quarterly apply.yearly
@@ -60,7 +63,7 @@
 #'
 #' @rdname sumSeries
 
-sumSeries <- function(r, p = "1969-01/2009-12", yr0 = "1870-01-01", l = nlayers(r), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years"){
+sumSeries <- function(r, p, yr0, l = nlayers(r), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years"){
 # construct xts object
 m <- t(getValues(r))
 dates <- seq(as.Date(yr0), length = l, by = freqin)

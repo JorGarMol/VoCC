@@ -4,7 +4,7 @@
 \alias{voccTraj}
 \title{Climate velocity trajectories}
 \usage{
-voccTraj(lonlat, vel, ang, mn, tyr, trajID = 1:nrow(lonlat))
+voccTraj(lonlat, vel, ang, mn, tyr, trajID = 1:nrow(lonlat), correct = FALSE)
 }
 \arguments{
 \item{lonlat}{\code{data.frame} with the longitude and latitude (in decimal degrees)
@@ -14,9 +14,20 @@ of the points to project.}
 
 \item{ang}{\code{raster} with velocity angles.}
 
-\item{mn}{\code{raster} with the overal mean annual climatic value over the period of interest.}
+\item{mn}{\code{raster} with the overall mean climatic value over the period of interest.}
 
-\item{tyr}{\code{integer} number of years comprising the period of interest.}
+\item{tyr}{\code{integer} temporal length of the period of interest.}
+
+\item{trajID}{\code{integer} specifying the identifiers for the trajectories.}
+
+\item{correct}{\code{logical} does the input raster need to be corrected to account for cropped margins?
+Unless the raster extent is global, calculation of trajectories will throw an error at the margins
+as the trajectories go beyond the raster extent (no input values). To avoid this, an option is given for
+expanding the extent by the resolution of the raster (1 column/row) with NAs. Note that those trajectories
+reaching the extent limits will be artificially bounced back so should be discarded at that point.
+Alternatively, users may choose to crop to a larger extent to the domain of interest (appropriately
+defined by lonlat), so the extra extent buffer for those trajectories getting to the border
+of the raster.}
 }
 \value{
 a \code{data.frame} containing the coordinates ("x", "y") of the constituent
@@ -31,22 +42,30 @@ approach in that iterations of a trajectory are based on cumulative time travell
 \examples{
 
 data(HSST)
-yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
+fun = function(x) colMeans(x, na.rm = TRUE),
+freqin = "months", freqout = "years")
 tr <- tempTrend(yrSST, th = 10)
 sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
 v <- lVoCC(tr,sg)
 vel <- v[[1]]
 ang <- v[[2]]
-mn <- raster::calc(yrSST, mean, na.rm=T)
+
+# calculate the annual SST mean over the period
+mn <- calc(r, mean, na.rm = T)
 
 # get the set of starting cells for the trajectories
-
 lonlat <- na.omit(data.frame(xyFromCell(vel, 1:ncell(vel)), vel[], ang[], mn[]))[,1:2]
 
 # Calculate trajectories.
-
 traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50)
 
+}
+\references{
+\href{https://www.nature.com/articles/nature12976}{Burrows et al. 2014}. Geographical limits to species-range shifts are suggested by climate velocity. Nature, 507, 492-495.
+}
+\seealso{
+{\code{\link{lVoCC}}, \code{\link{trajClas}}}
 }
 \author{
 Jorge Garcia Molinos

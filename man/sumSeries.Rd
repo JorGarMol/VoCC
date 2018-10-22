@@ -2,11 +2,10 @@
 % Please edit documentation in R/sumSeries.R
 \name{sumSeries}
 \alias{sumSeries}
-\title{Summarize climatic series to higher temporal resolutions}
+\title{Summarize climatic series to higher temporal resolution}
 \usage{
-sumSeries(r, p = "1969-01/2009-12", yr0 = "1870-01-01", l = nlayers(r),
-  fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months",
-  freqout = "years")
+sumSeries(r, p, yr0, l, fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months",
+freqout = "years")
 }
 \arguments{
 \item{r}{\code{RasterStack} containing the time series of the climatic variable.}
@@ -45,7 +44,8 @@ data(HSST)
 
 # Calculate mean annual monthly SST
 
-yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
+fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
 
 # Extract Jul Aug mean SST each year (xts months are indexed from 0 to 11)
 
@@ -53,7 +53,8 @@ myf = function(x, m = c(7,8)){
 x[xts::.indexmon(x) \%in\% (m-1)]
 }
 
-JlAugSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1950-01-01", l = raster::nlayers(HSST), fun = myf, freqin = "months", freqout = "other")
+JlAugSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1950-01-01", l = raster::nlayers(HSST),
+fun = myf, freqin = "months", freqout = "other")
 
 # Same but calculating the annual variance of the two months
 
@@ -62,14 +63,14 @@ x1 <- x[xts::.indexmon(x) \%in\% (m-1)]
 xts::apply.yearly(x1, function(y) apply(y, 2, function(y){var(y, na.rm = TRUE)}))
 }
 
-meanJASST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1950-01-01", l = raster::nlayers(HSST), fun = myf, freqin = "months", freqout = "other")
+meanJASST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1950-01-01", l = raster::nlayers(HSST),
+fun = myf, freqin = "months", freqout = "other")
 
 }
 \references{
-Jeffrey A. Ryan and Joshua M. Ulrich (2017). xts: eXtensible Time Series. R package version 0.10-1.
- \url{https://CRAN.R-project.org/package=xts}
- Henrik Bengtsson (2018). matrixStats: Functions that Apply to Rows and Columns of Matrices (and to Vectors). R package version 0.53.1.
- \url{https://CRAN.R-project.org/package=matrixStats}
+\href{https://CRAN.R-project.org/package=xts}{Ray and Ulrich. 2017}. xts: eXtensible Time Series. R package version 0.10-1. \cr
+\href{https://CRAN.R-project.org/package=matrixStats}{Bengtsson. 2018}. matrixStats: Functions that Apply to Rows and Columns
+of Matrices (and to Vectors). R package version 0.53.1.
 }
 \author{
 Jorge Garcia Molinos

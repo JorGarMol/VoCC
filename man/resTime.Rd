@@ -33,6 +33,12 @@ a1
 a2 <- resTime(EEZs, vel, areapg = EEZs$Area_km2)
 a2
 }
+\references{
+\href{https://www.nature.com/articles/nature08649}{Loarie et al. 2009}. The velocity of climate change. Nature, 462, 1052-1055.
+}
+\seealso{
+{\code{\link{lVoCC}}}
+}
 \author{
 Jorge Garcia Molinos
 }
