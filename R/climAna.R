@@ -42,7 +42,7 @@
 #' @import doParallel foreach
 #' @importFrom geosphere destPoint distGeo
 #' @importFrom gdistance shortestPath
-#' @importFrom parallel detectCores makeCluster
+#' @importFrom parallel detectCores makeCluster stopCluster
 #' @export
 #' @author Jorge Garcia Molinos
 #' @examples
