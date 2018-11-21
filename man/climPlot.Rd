@@ -4,7 +4,7 @@
 \alias{climPlot}
 \title{Binned scatter plot for 2-dimensional climate space}
 \usage{
-climPlot(xy, x.binSize, y.binSize)
+climPlot(xy, x.binSize, y.binSize, x.name="V1", y.name="V2")
 }
 \arguments{
 \item{xy}{\code{data.frame} with cells as rows and 4 columns representing the present and future local values for the two variables (V1p, V1f, V2p, V2f).}
@@ -12,6 +12,10 @@ climPlot(xy, x.binSize, y.binSize)
 \item{x.binSize}{\code{numeric} the bin size for the first variable.}
 
 \item{y.binSize}{\code{numeric} the bin size for the second variable.}
+
+\item{x.name}{\code{character} the variable name for the first variable. Used to label the plot.}
+
+\item{y.name}{\code{character} the variable name for the second variable. Used to label the plot.}
 }
 \value{
 a series of \code{plot} objects displaying the (i) present and (ii) future
@@ -27,12 +31,17 @@ data(JapTC)
 # Plot climate space for the two first variables(annual precipitation and maximum temperature)
 xy <- na.omit(data.frame(getValues(JapTC[[1]]), getValues(JapTC[[2]]),
 getValues(JapTC[[3]]), getValues(JapTC[[4]])))
-climPlot(xy, x.binSize = 5, y.binSize = 0.2)
+
+out <- climPlot(xy, x.binSize = 5, y.binSize = 0.2, x.name="Precipitation (mm)", y.name="Temperature max (°C)")
+
+# output plots can be saved as:
+ggsave(plot=out, filename=paste0(getwd(), "/example_plot.pdf"), width=17, height=17, unit="cm")
+
 
 }
 \seealso{
 {\code{\link{climAna}}, \code{\link{climPCA}}}
 }
 \author{
-Jorge Garcia Molinos
+Jorge Garcia Molinos and Naoki H. Kumagai
 }

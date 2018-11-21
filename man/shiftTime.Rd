@@ -16,13 +16,13 @@ variable for the period of interest.}
 
 \item{yr0}{\code{integer} specifying the first year in the series.}
 
-\item{th}{\code{integer} max number of non NAs in the series needed to
+\item{th}{\code{integer} minimum number of non NAs in the series needed to
 calculate the trend (default 3).}
 
 \item{m}{\code{integer} number (1-12) of the month for which the shift is to be calculated}
 }
 \value{
-a \code{stack} with the long-term monthly trend (C/year; "mTrend"),
+a \code{stack} with the long-term monthly trend (C/year for temperature in degrees; "mTrend"),
 seasonal rate of change (C/month; "seaRate"), and seasonal shift (day/decade; "seaShift").
 }
 \description{
@@ -32,6 +32,7 @@ for a given period of interest as per Burrows et al. 2011.
 \examples{
 data(HSST)
 Apr <- shiftTime(HSST, yr1 = 1960, yr2 = 2009, yr0 = 1955, th = 10, m = 4)
+
 plot(Apr)
 
 }
