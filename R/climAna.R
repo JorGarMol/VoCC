@@ -108,14 +108,18 @@ dif <- sweep(fut, 2, pres, "-")
 
 # Identify future analogue cells
 if(method == "Single"){     # Ohlemuller et al 2006 / Hamann et al 2015
-ana <- as.numeric(which(apply(dif, 1, function(x) all(abs(x) < climTol))))
-anacid <- dat$cid[ana]  # cids analogue cells
+upper = colnames(dif)
+l <- lapply(upper, function(x) call("<", call("abs", as.name(x)), climTol[grep(x, colnames(dif))]))
+ii = Reduce(function(c1, c2) substitute(.c1 & .c2, list(.c1=c1, .c2=c2)), l)
+anacid <- dat$cid[dif[eval(ii), which=TRUE]]  # cids analogue cells
 }
 
 if(method == "Variable"){     # Garcia Molinos et al. 2017
 climTol <- as.numeric(Dat[i, ((2*n)+1):(3*n), with=FALSE])       # focal cell tolerance
-ana <- as.numeric(which(apply(dif, 1, function(x) all(abs(x) < climTol))))
-anacid <- dat$cid[ana]  # cids analogue cells
+upper = colnames(dif)
+l <- lapply(upper, function(x) call("<", call("abs", as.name(x)), climTol[grep(x, colnames(dif))]))
+ii = Reduce(function(c1, c2) substitute(.c1 & .c2, list(.c1=c1, .c2=c2)), l)
+anacid <- dat$cid[dif[eval(ii), which=TRUE]]  # cids analogue cells
 }
 
 # LOCATE CLOSEST ANALOGUE
