@@ -24,12 +24,12 @@
 #' fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
 #' tr <- tempTrend(yrSST, th = 10)
 #' sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
-#' v <- lVoCC(tr,sg)
+#' v <- gVoCC(tr,sg)
 #' vel <- v[[1]]
 #' ang <- v[[2]]
 #'
 #' # calculate the annual SST mean over the period
-#' mn <- calc(r, mean, na.rm = T)
+#' mn <- mean(yrSST, na.rm = T)
 #'
 #' # get the set of starting cells for the trajectories
 #' lonlat <- na.omit(data.frame(xyFromCell(vel, 1:ncell(vel)), vel[], ang[], mn[]))[,1:2]

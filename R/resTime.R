@@ -6,7 +6,7 @@
 #'
 #' @param pg \code{SpatialPolygon} or a \code{SpatialPolygonsDataFrame} containing the polygons for which
 #' the residence time is to be calculated. The polygons must be on the same coordinate system as vel.
-#' @param vel \code{raster} with local climate velocity (km/year) for the period of interest.
+#' @param vel \code{raster} with climate velocity (km/year) for the period of interest.
 #' @param areapg \code{vector} with the area (in km2) of the polygons. Use NA (default) to calculate internally if field not avilable.
 #'
 #' @return a \code{data.frame} containing for each polygon its ID, mean velocity (km/yr),
@@ -14,7 +14,7 @@
 #'
 #' @references \href{https://www.nature.com/articles/nature08649}{Loarie et al. 2009}. The velocity of climate change. Nature, 462, 1052-1055.
 #'
-#' @seealso{\code{\link{lVoCC}}}
+#' @seealso{\code{\link{gVoCC}}}
 #'
 #' @import data.table sp
 #' @export

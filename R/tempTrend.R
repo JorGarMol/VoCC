@@ -8,7 +8,7 @@
 #'
 #' @param r \code{RasterStack} with annual values of the climatic variable for
 #'  the period of interest.
-#' @param th \code{Integer} max number of observations in the series needed to
+#' @param th \code{Integer} minimum number of observations in the series needed to
 #' calculate the trend at each cell.
 #'
 #' @return A \code{RasterStack} containing annual trends

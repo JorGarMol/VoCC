@@ -19,7 +19,7 @@ variable for the period of interest.}
 \item{th}{\code{integer} max number of non NAs in the series needed to
 calculate the trend (default 3).}
 
-\item{month}{\code{integer} number (1-12) of the month for which the shift is to be calculated}
+\item{m}{\code{integer} number (1-12) of the month for which the shift is to be calculated}
 }
 \value{
 a \code{stack} with the long-term monthly trend (C/year; "mTrend"),
@@ -31,7 +31,7 @@ for a given period of interest as per Burrows et al. 2011.
 }
 \examples{
 data(HSST)
-Apr <- shiftTime(HSST, yr1 = 1960, yr2 = 2009, yr0 = 1955, th = 10, month = 4)
+Apr <- shiftTime(HSST, yr1 = 1960, yr2 = 2009, yr0 = 1955, th = 10, m = 4)
 plot(Apr)
 
 }

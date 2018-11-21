@@ -3,7 +3,7 @@
 export(climAna)
 export(climPCA)
 export(climPlot)
-export(lVoCC)
+export(gVoCC)
 export(resTime)
 export(shiftTime)
 export(spatGrad)

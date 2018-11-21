@@ -18,7 +18,7 @@
 #'
 #' @param traj \code{data.frame} as retuned by voccTraj containing the coordinates
 #' and identification number for each trajectory.
-#' @param vel \code{raster} with the magnitude of local climate velocity.
+#' @param vel \code{raster} with the magnitude of gradient-based climate velocity.
 #' @param ang \code{raster} with velocity angles.
 #' @param trajSt \code{integer} number of trajectories starting from each cell or spatial unit.
 #' @param tyr \code{integer} number of years comprising the projected period.
@@ -92,7 +92,7 @@ a <- fourCellsFromXY(ang, as.matrix(ll[,1:2]))
 a <- t(apply(a, 1, sort))
 # correct sequences on date line
 a[seq(360, by = 360, length = nrow(ang)),] <- t(apply(a[seq(360, by = 360, length = nrow(ang)),], 1, function(x) {x[c(2,1,4,3)]}))
-b <- matrix(extract(ang, as.vector(a)), nrow = ncell(ang), ncol = 4, byrow = FALSE)        # extract the angles for each cell
+b <- matrix(raster::extract(ang, as.vector(a)), nrow = ncell(ang), ncol = 4, byrow = FALSE)        # extract the angles for each cell
 ll[, c("c1", "c2", "c3", "c4", "ang1", "ang2", "ang3", "ang4") := data.frame(a, b)]
 # now look if the 4 angles point inwards (internal sink)
 ll[, c("d1", "d2", "d3", "d4") := .(((ang1 - 180)  *  (90 - ang1)), ((ang2 - 270)  *  (180 - ang2)), ((ang3 - 90)  *  (0 - ang3)), ((ang4 - 360)  *  (270 - ang4)))]

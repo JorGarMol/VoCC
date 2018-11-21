@@ -10,7 +10,7 @@ trajClas(traj, vel, ang, trajSt, tyr, nmL, smL , Nend, Nst, NFT)
 \item{traj}{\code{data.frame} as retuned by voccTraj containing the coordinates
 and identification number for each trajectory.}
 
-\item{vel}{\code{raster} with the magnitude of local climate velocity.}
+\item{vel}{\code{raster} with the magnitude of gradient-based climate velocity.}
 
 \item{ang}{\code{raster} with velocity angles.}
 

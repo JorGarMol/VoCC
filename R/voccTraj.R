@@ -9,8 +9,8 @@
 #'
 #' @param lonlat \code{data.frame} with the longitude and latitude (in decimal degrees)
 #' of the points to project.
-#' @param vel \code{raster} with the magnitude of local climate velocity.
-#' @param ang \code{raster} with velocity angles.
+#' @param vel \code{raster} with the magnitude of gradient-based climate velocity.
+#' @param ang \code{raster} with velocity angles in degrees.
 #' @param mn \code{raster} with the overall mean climatic value over the period of interest.
 #' @param tyr \code{integer} temporal length of the period of interest.
 #' @param trajID \code{integer} specifying the identifiers for the trajectories.
@@ -28,10 +28,10 @@
 #'
 #' @references \href{https://www.nature.com/articles/nature12976}{Burrows et al. 2014}. Geographical limits to species-range shifts are suggested by climate velocity. Nature, 507, 492-495.
 #'
-#' @seealso{\code{\link{lVoCC}}, \code{\link{trajClas}}}
+#' @seealso{\code{\link{gVoCC}}, \code{\link{trajClas}}}
 #' @importFrom geosphere destPoint distGeo
 #' @export
-#' @author Jorge Garcia Molinos
+#' @author Jorge Garcia Molinos, David S. Schoeman and Michael T. Burrows
 #' @examples
 #'
 #' data(HSST)
@@ -40,12 +40,12 @@
 #' freqin = "months", freqout = "years")
 #' tr <- tempTrend(yrSST, th = 10)
 #' sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
-#' v <- lVoCC(tr,sg)
+#' v <- gVoCC(tr,sg)
 #' vel <- v[[1]]
 #' ang <- v[[2]]
 #'
 #' # calculate the annual SST mean over the period
-#' mn <- calc(r, mean, na.rm = T)
+#' mn <- mean(yrSST, na.rm = T)
 #'
 #' # get the set of starting cells for the trajectories
 #' lonlat <- na.omit(data.frame(xyFromCell(vel, 1:ncell(vel)), vel[], ang[], mn[]))[,1:2]

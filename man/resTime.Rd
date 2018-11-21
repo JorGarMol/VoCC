@@ -10,7 +10,7 @@ resTime(pg, vel, areapg = NA)
 \item{pg}{\code{SpatialPolygon} or a \code{SpatialPolygonsDataFrame} containing the polygons for which
 the residence time is to be calculated. The polygons must be on the same coordinate system as vel.}
 
-\item{vel}{\code{raster} with local climate velocity (km/year) for the period of interest.}
+\item{vel}{\code{raster} with climate velocity (km/year) for the period of interest.}
 
 \item{areapg}{\code{vector} with the area (in km2) of the polygons. Use NA (default) to calculate internally if field not avilable.}
 }
@@ -37,7 +37,7 @@ a2
 \href{https://www.nature.com/articles/nature08649}{Loarie et al. 2009}. The velocity of climate change. Nature, 462, 1052-1055.
 }
 \seealso{
-{\code{\link{lVoCC}}}
+{\code{\link{gVoCC}}}
 }
 \author{
 Jorge Garcia Molinos

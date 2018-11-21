@@ -85,7 +85,7 @@ r2 <- raster(r[[1]])
 r2[] <-  as.numeric(s[i,])
 r1 <- addLayer(r1, r2)
 }
-
+if(freqout != "other"){names(r1) <- seq(as.Date(yr0), length = nlayers(r1), by = freqout)}
 return(r1)
 }
 

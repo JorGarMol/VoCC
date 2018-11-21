@@ -10,7 +10,7 @@ tempTrend(r, th)
 \item{r}{\code{RasterStack} with annual values of the climatic variable for
 the period of interest.}
 
-\item{th}{\code{Integer} max number of observations in the series needed to
+\item{th}{\code{Integer} minimum number of observations in the series needed to
 calculate the trend at each cell.}
 }
 \value{

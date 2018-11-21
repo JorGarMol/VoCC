@@ -27,7 +27,7 @@ yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(
 fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
 tr <- tempTrend(yrSST, th = 10)
 sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
-v <- lVoCC(tr,sg)
+v <- gVoCC(tr,sg)
 vel <- v[[1]]
 ang <- v[[2]]
 

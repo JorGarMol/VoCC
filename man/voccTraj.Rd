@@ -10,9 +10,9 @@ voccTraj(lonlat, vel, ang, mn, tyr, trajID = 1:nrow(lonlat), correct = FALSE)
 \item{lonlat}{\code{data.frame} with the longitude and latitude (in decimal degrees)
 of the points to project.}
 
-\item{vel}{\code{raster} with the magnitude of local climate velocity.}
+\item{vel}{\code{raster} with the magnitude of gradient-based climate velocity.}
 
-\item{ang}{\code{raster} with velocity angles.}
+\item{ang}{\code{raster} with velocity angles in degrees.}
 
 \item{mn}{\code{raster} with the overall mean climatic value over the period of interest.}
 
@@ -47,7 +47,7 @@ fun = function(x) colMeans(x, na.rm = TRUE),
 freqin = "months", freqout = "years")
 tr <- tempTrend(yrSST, th = 10)
 sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
-v <- lVoCC(tr,sg)
+v <- gVoCC(tr,sg)
 vel <- v[[1]]
 ang <- v[[2]]
 
@@ -65,7 +65,7 @@ traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50)
 \href{https://www.nature.com/articles/nature12976}{Burrows et al. 2014}. Geographical limits to species-range shifts are suggested by climate velocity. Nature, 507, 492-495.
 }
 \seealso{
-{\code{\link{lVoCC}}, \code{\link{trajClas}}}
+{\code{\link{gVoCC}}, \code{\link{trajClas}}}
 }
 \author{
 Jorge Garcia Molinos
