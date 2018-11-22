@@ -18,8 +18,8 @@
 #'
 #' @import data.table
 #' @import ggplot2
-#' @import cowplot
 #' @importFrom RColorBrewer brewer.pal
+#' @importFrom cowplot plot_grid
 #' @export
 #' @author Jorge Garcia Molinos and Naoki H. Kumagai
 #' @examples
@@ -50,7 +50,7 @@ climPlot <- function(xy, x.binSize, y.binSize, x.name="V1", y.name="V2"){
   y.bin <- seq(floor(min(cbind(yp, yf))), ceiling(max(cbind(yp, yf))), length = y.nbins)
 
   # define palette
-  rf <- colorRampPalette(rev(brewer.pal(11,'Spectral')))
+  rf <- colorRampPalette(rev(RColorBrewer::brewer.pal(11,'Spectral')))
   r <- rf(64)
 
   # present
@@ -101,7 +101,7 @@ climPlot <- function(xy, x.binSize, y.binSize, x.name="V1", y.name="V2"){
   panelC <- ggplot(Freq2D, aes(x=x, y=y, fill=freq)) + geom_raster() + scale_fill_manual(values=c("#56B4E9", "#009E73", "#D55E00"),
                                                                                          name="Climate type") + labs(x=x.name, y=y.name)
 
-  panels <- plot_grid(panelAB, panelC, nrow=2, rel_heights=c(1.3, 1.0))
+  panels <- cowplot::plot_grid(panelAB, panelC, nrow=2, rel_heights=c(1.3, 1.0))
   return(panels)
 }
 
