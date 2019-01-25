@@ -66,7 +66,7 @@
 #' h8 <- gdistance::geoCorrection(h8, type="c")
 #' # Now calculate the analogue velocity using the baseline SD for each variable as analogue threshold
 #' avocc2 <- climAna(clim, n = 3, tdiff = 40, method = "Variable", climTol = NA, geoTol = Inf,
-#' distfun = "GreatCircle", trans = h8, lonlat = TRUE)
+#' distfun = "LeastCost", trans = h8, lonlat = TRUE)
 #'
 #' # Plot results
 #' r1 <- r2 <- raster(JapTC[[1]])
@@ -104,7 +104,7 @@ while(i <= nrow(Dat)){
 i <- i+1
 # for each focal cell subset target cell analogues (within ClimTol)
 pres <- as.numeric(Dat[i, seq(1, (2*n), by = 2), with=FALSE])
-dif <- sweep(fut, 2, pres, "-")
+dif <- data.table(sweep(fut, 2, pres, "-"))
 
 # Identify future analogue cells
 if(method == "Single"){     # Ohlemuller et al 2006 / Hamann et al 2015
