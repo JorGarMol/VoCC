@@ -90,7 +90,6 @@ spatGrad <- function(r, th = -Inf, projected = FALSE){
 
   # Calculate the vector sum of gradients (C/km)
   y[, Grad := sqrt(apply(cbind((y$WEgrad^2), (y$NSgrad^2)), 1, sum, na.rm = TRUE))]
-  y[Grad < th, grad := th]
 
   # Merge the reduced file back into the main file to undo the initial na.omit
 	from <- data.table(1:ncell(r)) # Make ordered from cells
@@ -99,6 +98,7 @@ spatGrad <- function(r, th = -Inf, projected = FALSE){
   rAng <- rGrad <- raster::raster(r)
   rAng[y$from] <- y$angle
   rGrad[y$from] <- y$Grad
+  rGrad[rGrad[] < th] <- th
   output <- raster::stack(rGrad,rAng)
   names(output) <- c("Grad", "Ang")
   return(output)
