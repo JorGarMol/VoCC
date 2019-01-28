@@ -14,7 +14,7 @@
 #' cell frequency for each combination of local climates,
 #' and (iii) the location of remnant, novel and disappearing climates between both periods.
 #'
-#' @seealso{\code{\link{climAna}}, \code{\link{climPCA}}}
+#' @seealso{\code{\link{dVoCC}}, \code{\link{climPCA}}}
 #'
 #' @import data.table
 #' @import ggplot2

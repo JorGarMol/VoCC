@@ -54,8 +54,8 @@ data(JapTC)
 ?JapTC
 
 # Create a data frame with the necessary variables in the required order
-clim <- na.omit(data.frame(getValues(JapTC), cid = 1:ncell(JapTC[[1]])))
-clim[,c("x","y")] <- xyFromCell(JapTC[[1]], clim$cid)
+clim <- na.omit(data.frame(getValues(JapTC), cid = 1:ncell(JapTC)))
+clim[,c("x","y")] <- xyFromCell(JapTC, clim$cid)
 
 # Constant threshold, distance-restricted velocity based on geographical distances
 avocc1 <- climAna(clim, n = 3, tdiff = 40, method = "Single", climTol = c(10, 0.1, 0.1),
@@ -63,16 +63,16 @@ geoTol = 160, distfun = "GreatCircle", trans = NA, lonlat = TRUE)
 
 # Cell-specific, distance-unrestricted climate analogue velocity based on least-cost path distances
 # First, create the conductance matrix (all land cells considered to have conductance of 1)
-r <- raster(JapTC[[1]])
+r <- raster(JapTC)
 r[!is.na(JapTC[[1]])] <- 1
 h8 <- gdistance::transition(r, transitionFunction=mean, directions=8)
 h8 <- gdistance::geoCorrection(h8, type="c")
 # Now calculate the analogue velocity using the baseline SD for each variable as analogue threshold
 avocc2 <- climAna(clim, n = 3, tdiff = 40, method = "Variable", climTol = NA, geoTol = Inf,
-distfun = "GreatCircle", trans = h8, lonlat = TRUE)
+distfun = "LeastCost", trans = h8, lonlat = TRUE)
 
 # Plot results
-r1 <- r2 <- raster(JapTC[[1]])
+r1 <- r2 <- raster(JapTC)
 r1[avocc1$focal] <- avocc1$vel
 r2[avocc2$focal] <- avocc2$vel
 plot(stack(r1,r2))

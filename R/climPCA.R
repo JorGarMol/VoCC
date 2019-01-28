@@ -17,7 +17,7 @@
 #' (ii) a table with the present/future cell values for the principal components accounting
 #' for the specified percentage of total variance (th).
 #'
-#' @seealso{\code{\link{climAna}}, \code{\link{climPlot}}}
+#' @seealso{\code{\link{dVoCC}}, \code{\link{climPlot}}}
 #'
 #' @import data.table
 #' @export
