@@ -31,7 +31,7 @@
 
 
 shiftTime <- function(r, yr1, yr2, yr0, th, m){
-# 1. Long term trends in monthly values (e.g. temperature in deg/year)
+# 1. Long term trends in monthly values (e.g. deg/year if temperature)
 m1 <- ((yr1-yr0)*12)+ m
 m2 <- ((yr2-yr0)*12)+ m
 r1 <- r[[seq(m1, m2, by = 12)]]
