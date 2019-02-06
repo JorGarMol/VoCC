@@ -2,10 +2,12 @@
 #'
 #' Create a spatial line data frame object from trajectory points.
 #'
-#' @usage trajLine(x)
+#' @usage trajLine(x, projx)
 #'
 #' @param x \code{data.frame} containing the coordinates (x, y) of the constituent
 #' points and identification number (trajIDs) for each trajectory as returned by VoCCTraj.
+#' @param projx \code{CRS} detailing the coordinate reference system of the input data
+#' (default geographic CRS).
 #'
 #' @return A \code{SpatialLinesDataFrame} with one line per trajectory as specified in x.
 #' To avoid artifacts, trajectories crossing the date line need to be splitted into two segments.
@@ -38,7 +40,7 @@
 #' traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50)
 #'
 #' # create a spatial line data frame from traj
-#' lns <- trajLine(traj)
+#' lns <- trajLine(x = traj)
 #' plot(mn)
 #' plot(lns, add = TRUE)
 #'
@@ -48,7 +50,7 @@
 #'
 #' @rdname trajLine
 
-trajLine <- function (x){
+trajLine <- function (x, projx = "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"){
 
   spl <- split(x, x$trajIDs)
   # remove traj consisiting of a single point
@@ -64,7 +66,7 @@ trajLine <- function (x){
         }else{
         lns[[i]] <- Lines(list(Line(coordinates(spl[[i]][,1:2]))), ID = i)
      }}
-  SpatialLinesDataFrame(SpatialLines(lns, proj4string = CRS(proj4string(vel))), data = data.frame(trajIDs = unique(x$trajIDs)))
+  SpatialLinesDataFrame(SpatialLines(lns, proj4string = CRS(projx)), data = data.frame(trajIDs = unique(x$trajIDs)))
 }
 
 
