@@ -20,6 +20,7 @@
 #' and identification number for each trajectory.
 #' @param vel \code{raster} with the magnitude of gradient-based climate velocity.
 #' @param ang \code{raster} with velocity angles.
+#' @param mn \code{raster} with mean climatic values for the study period.
 #' @param trajSt \code{integer} number of trajectories starting from each cell or spatial unit.
 #' @param tyr \code{integer} number of years comprising the projected period.
 #' @param nmL \code{numeric} upper threshold (distance units as per vel object) up to which
@@ -49,8 +50,17 @@
 #' # Load trajectories generated from 0.25-degree global grid
 #' data(traj25)
 #'
-#' clas <- trajClas(traj25, vel, ang, trajSt = 16, tyr = 50, nmL = 20, smL = 100, Nend = 45,
-#' Nst = 15, NFT = 70)
+#' # input raster layers
+#' data(HSST)
+#' yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
+#' fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+#' mn <- raster::calc(yrSST, mean, na.rm=T)
+#' tr <- tempTrend(yrSST, th = 10)
+#' sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
+#' v <- gVoCC(tr,sg)
+#'
+#' clas <- trajClas(traj25, v[[1]], v[[2]], mn, trajSt = 16, tyr = 50, nmL = 20, smL = 100,
+#' Nend = 45, Nst = 15, NFT = 70)
 #'
 #' my_col = c('gainsboro','darkseagreen1','coral4','firebrick2','mediumblue','darkorange1',
 #' 'magenta1','cadetblue1','yellow1')
@@ -60,7 +70,7 @@
 #'
 #' @rdname trajClas
 
-trajClas <- function(traj, vel, ang, trajSt, tyr, nmL, smL , Nend, Nst, NFT){
+trajClas <- function(traj, vel, ang, mn, trajSt, tyr, nmL, smL , Nend, Nst, NFT){
 
 TrajEnd <- TrajFT <- TrajSt <- IntS <- BounS <- TrajClas <- raster(ang)
 
