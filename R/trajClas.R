@@ -14,7 +14,7 @@
 #' and (5) convergence cells identified from the remaining cells respectively as those where fewer/more trajectories ended than started in that
 #' cell.
 #'
-#' @usage trajClas(traj, vel, ang, trajSt, tyr, nmL, smL , Nend, Nst, NFT)
+#' @usage trajClas(traj, vel, ang, mn, trajSt, tyr, nmL, smL , Nend, Nst, NFT)
 #'
 #' @param traj \code{data.frame} as retuned by voccTraj containing the coordinates
 #' and identification number for each trajectory.
