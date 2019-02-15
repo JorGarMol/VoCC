@@ -3,8 +3,9 @@
 \docType{data}
 \name{EEZs}
 \alias{EEZs}
-\title{Exclusive Economic Zone Boundaries (EEZ, v9)}
-\format{A spatial polygon data frame containing 10 arbitrarily selected EEZs.}
+\title{Exclusive Economic Zone Boundaries (EEZ, v10)}
+\format{A spatial polygon data frame containing EEZs for
+Western Pacific tropical island nations}
 \source{
 Marineregions.org
 \url{http://www.marineregions.org/downloads.php}
@@ -13,6 +14,6 @@ Marineregions.org
 data(EEZs)
 }
 \description{
-A random selection of 10 Exclusive Economic Zones
+Western Pacific tropical Exclusive Economic Zones
 }
 \keyword{datasets}

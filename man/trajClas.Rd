@@ -4,7 +4,7 @@
 \alias{trajClas}
 \title{Climate velocity trajectory classification}
 \usage{
-trajClas(traj, vel, ang, trajSt, tyr, nmL, smL , Nend, Nst, NFT)
+trajClas(traj, vel, ang, mn, trajSt, tyr, nmL, smL , Nend, Nst, NFT)
 }
 \arguments{
 \item{traj}{\code{data.frame} as retuned by voccTraj containing the coordinates
@@ -13,6 +13,8 @@ and identification number for each trajectory.}
 \item{vel}{\code{raster} with the magnitude of gradient-based climate velocity.}
 
 \item{ang}{\code{raster} with velocity angles.}
+
+\item{mn}{\code{raster} with mean climatic values for the study period.}
 
 \item{trajSt}{\code{integer} number of trajectories starting from each cell or spatial unit.}
 
@@ -58,8 +60,17 @@ cell.
 # Load trajectories generated from 0.25-degree global grid
 data(traj25)
 
-clas <- trajClas(traj25, vel, ang, trajSt = 16, tyr = 50, nmL = 20, smL = 100, Nend = 45,
-Nst = 15, NFT = 70)
+# input raster layers
+data(HSST)
+yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
+fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+mn <- raster::calc(yrSST, mean, na.rm=T)
+tr <- tempTrend(yrSST, th = 10)
+sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
+v <- gVoCC(tr,sg)
+
+clas <- trajClas(traj25, v[[1]], v[[2]], mn, trajSt = 16, tyr = 50, nmL = 20, smL = 100,
+Nend = 45, Nst = 15, NFT = 70)
 
 my_col = c('gainsboro','darkseagreen1','coral4','firebrick2','mediumblue','darkorange1',
 'magenta1','cadetblue1','yellow1')

@@ -26,11 +26,19 @@ Function to calculate vocc residence time of a polygon after Loaire et al. (2009
 # Load example Exclusive Economic Zone polygons
 
 data(EEZs)
+data(HSST)
+yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
+fun = function(x) colMeans(x, na.rm = TRUE),
+freqin = "months", freqout = "years")
+tr <- tempTrend(yrSST, th = 10)
+sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
+v <- gVoCC(tr,sg)
+vel <- v[[1]]
 # Calculating area internally
 a1 <- resTime(EEZs, vel, areapg = NA)
 a1
 # Using the area field from the polygon data table
-a2 <- resTime(EEZs, vel, areapg = EEZs$Area_km2)
+a2 <- resTime(EEZs, vel, areapg = as.numeric(as.numeric(levels(EEZs$Area_km2))[EEZs$Area_km2]))
 a2
 }
 \references{

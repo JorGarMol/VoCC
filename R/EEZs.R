@@ -1,12 +1,13 @@
-#' Exclusive Economic Zone Boundaries (EEZ, v9)
+#' Exclusive Economic Zone Boundaries (EEZ, v10)
 #'
-#' A random selection of 10 Exclusive Economic Zones 
-#' 
+#' Western Pacific tropical Exclusive Economic Zones
+#'
 #' @docType data
 #'
 #' @usage data(EEZs)
 #'
-#' @format A spatial polygon data frame containing 10 arbitrarily selected EEZs.
+#' @format A spatial polygon data frame containing EEZs for
+#' Western Pacific tropical island nations
 #'
 #' @source Marineregions.org
 #' \url{http://www.marineregions.org/downloads.php}
