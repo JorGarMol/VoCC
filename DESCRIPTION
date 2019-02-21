@@ -4,7 +4,8 @@ Version: 0.0.0.9000
 Authors@R: c(person("Jorge", "Garc?a Molinos", email = "jorgegmolinos@arc.hokudai.ac.jp", role = c("aut", "cre")),
     person("David", "S. Schoeman", email = "", role = "aut"),
     person("Christopher", "J. Brown", email = "", role = "aut"),
-    person("Michael", "T. Burrows", email = "", role = "aut"))
+    person("Michael", "T. Burrows", email = "", role = "aut"),
+    person("Naoki", "H. Kumagai", email = "", role = "ctb"))
 Description: Functions to calculate the velocity of climate change (VoCC) and related metrics including 
     both gradient-based (Burrows et al. 2011, Burrows et al. 2014), and distance-based (Hamann et a. 2013,
      Garc?a Molinos et al. 2017) approaches.
@@ -25,7 +26,8 @@ Imports: CircStats,
     rgdal,
     sp,
     stats,
-    xts
+    xts,
+    VoCC
 Suggests: ncdf4
 URL: https://github.com/JorGarMol/VoCC
 BugReports: https://github.com/JorGarMol/VoCC/issues
