@@ -22,7 +22,6 @@
 #' @export
 #' @author Jorge Garcia Molinos and Michael T. Burrows
 #' @examples
-#' data(HSST)
 #' Apr <- shiftTime(HSST, yr1 = 1960, yr2 = 2009, yr0 = 1955, th = 10, m = 4)
 #'
 #' plot(Apr)
@@ -48,7 +47,7 @@ m1 <- ((yr1-yr0)*12)+ b
 m2 <- ((yr2-yr0)*12)+ b
 x3 <- r[[seq(m1, m2, by = 12)]]
 # slope
-x4 <- mean((x3-x2)/2, na.rm = TRUE)
+x4 <- raster::mean((x3-x2)/2, na.rm = TRUE)
 
 # 3. seasonal shifts (month/year) converted to days per decade by multiplying by 10 years, 365.25 days per year and dividing by 12 months
 sShift <- (trend/x4)*(3652.5/12)
