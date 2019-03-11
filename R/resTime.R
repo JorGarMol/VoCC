@@ -23,8 +23,8 @@
 #'
 #' # Load example Exclusive Economic Zone polygons
 #'
-#' data(EEZs)
-#' data(HSST)
+#' ?EEZs
+#' ?HSST
 #' yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
 #' fun = function(x) colMeans(x, na.rm = TRUE),
 #' freqin = "months", freqout = "years")
