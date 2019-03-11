@@ -47,11 +47,10 @@
 #' @author Jorge Garcia Molinos
 #' @examples
 #'
-#' # Load trajectories generated from 0.25-degree global grid
-#' data(traj25)
+#' # Trajectories generated from 0.25-degree global grid
+#' ?traj25
 #'
 #' # input raster layers
-#' data(HSST)
 #' yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
 #' fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
 #' mn <- raster::calc(yrSST, mean, na.rm=T)
