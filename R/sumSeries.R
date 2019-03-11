@@ -33,9 +33,9 @@
 #' @export
 #' @author Jorge Garcia Molinos
 #' @examples
-#' # Load monthly mean SST (HadISST) data for Europe Jan-1950 to Dec-2010
+#' # Monthly mean SST (HadISST) data for Europe Jan-1950 to Dec-2010
 #'
-#' data(HSST)
+#' ?HSST
 #'
 #' # Calculate mean annual monthly SST
 #'
