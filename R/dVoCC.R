@@ -47,7 +47,6 @@
 #' @author Jorge Garcia Molinos
 #' @examples
 #'
-#' data(JapTC)
 #' ?JapTC
 #'
 #' # Create a data frame with the necessary variables in the required order
