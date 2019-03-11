@@ -24,7 +24,6 @@
 #' @author Jorge Garcia Molinos and Naoki H. Kumagai
 #' @examples
 #'
-#' data(JapTC)
 #' # Plot climate space for the two first variables(annual precipitation and maximum temperature)
 #' xy <- na.omit(data.frame(getValues(JapTC[[1]]), getValues(JapTC[[2]]),
 #' getValues(JapTC[[3]]), getValues(JapTC[[4]])))
