@@ -19,7 +19,6 @@
 #' @author Jorge Garcia Molinos and Christopher J. Brown
 #' @examples
 #'
-#' data(HSST)
 #' yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
 #' fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
 #'
