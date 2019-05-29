@@ -1,7 +1,7 @@
 #' Local spatial climatic gradients
 #'
 #' Function to calculate the magnitude and direction of the spatial gradient
-#' associated ot a climatic variable after Burrows et al. 2011.
+#' associated to a climatic variable after Burrows et al. 2011.
 #'
 #' @usage spatGrad(r, th = -Inf, projected = FALSE)
 #'
