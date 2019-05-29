@@ -3,7 +3,7 @@
 #' Function to calculate climate analogues and related distance-based velocity. Cell analogues
 #' are identified by comparing the baseline climatic conditions at each focal cell with those existing for all
 #' other (target) cells in the future by reference to a specified climatic threshold. The function allows for the
-#' specification of search distances and incorporate both least cost path and Great Circle (as-the-crow-flies) distances.
+#' specification of search distances and incorporates both least cost path and Great Circle (as-the-crow-flies) distances.
 #'
 #' @usage dVoCC(clim, n, tdiff, method = "Single", climTol, geoTol, distfun = "GreatCircle",
 #' trans = NA, lonlat = TRUE)
@@ -31,7 +31,7 @@
 #'
 #' @return A \code{data.frame} containing the cell id of the future analogue for each focal cell (NA = no analogue available),
 #' together with the climatic ("climDis") and geographical ("geoDis") distances in input units,
-#' the bearing ("ang", degrees North), and resulting climate velocity ("vel", km/yr). Mean climatic distance are returned for multivariate analogues.
+#' the bearing ("ang", degrees North), and resulting climate velocity ("vel", km/yr). Mean climatic distances are returned for multivariate analogues.
 #'
 #' @references \href{https://onlinelibrary.wiley.com/doi/full/10.1111/j.1466-822X.2006.00245.x}{Ohlemuller et al. 2006}. Towards European climate risk surfaces: the extent and distribution of analogous and non-analogous climates 1931–2100. Global Ecology and Biogeography, 15, 395-405. \cr
 #'  \href{https://onlinelibrary.wiley.com/doi/full/10.1111/gcb.12736}{Hamann et al. 2015}. Velocity of climate change algorithms for guiding conservation and management. Global Change Biology, 21, 997-1004. \cr
