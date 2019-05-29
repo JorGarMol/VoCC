@@ -1,6 +1,6 @@
 #' Distance-based velocity based on geographically closest climate analogue
 #'
-#' Function to calculate climate analogues and related distance-based velocity. Cell analogues
+#' Function to calculate the geographically closest climate analogues and related distance-based velocity. Cell analogues
 #' are identified by comparing the baseline climatic conditions at each focal cell with those existing for all
 #' other (target) cells in the future by reference to a specified climatic threshold. The function allows for the
 #' specification of search distances and incorporates both least cost path and Great Circle (as-the-crow-flies) distances.
@@ -10,9 +10,9 @@
 #'
 #' @param clim \code{data.frame} with the value for the climatic parameters (columns) by cell (rows), arranged as follows (see examples below):
 #' The first 2n columns must contain the present and future values for each of the n climatic variables (V1p, V1f, V2p, V2f,...).
-#' Where cell-specific analogue thresholds (see "method" below) are to be calculated, the next (2n+1:3n) columns
+#' Where cell-specific analogue thresholds (see "variable" in "method" below) are to be calculated, the next (2n+1:3n) columns
 #' should contain the standard deviation (or any other measure of climatic variability) of each variable for the baseline period.
-#' The last three columns of the table should contain an identifyier and centroid coordinates of each cell.
+#' These columns are not required if using the "Single" method. The last three columns of the table should contain an identifyier and centroid coordinates of each cell.
 #' @param n \code{integer} defining the number of climatic variables.
 #' @param tdiff \code{integer} defining the number of years (or other temporal unit) between periods.
 #' @param method \code{character string} specifying the analogue method to be used. 'Single': a constant, single analogue threshold
