@@ -19,6 +19,8 @@
 #'
 #' @references \href{http://science.sciencemag.org/content/334/6056/652}{Burrows et al. 2011}. The pace of shifting climate in marine and terrestrial ecosystems. Science, 334, 652-655.
 #'
+#' @seealso{\code{\link{tempTrend}}, \code{\link{gVoCC}}}
+#' 
 #' @import data.table
 #' @importFrom CircStats rad deg
 #' @export
