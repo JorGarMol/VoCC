@@ -16,6 +16,8 @@
 #' ("slpTrends" in degree celsius per year), together with their standard 
 #' errors ("seTrends") and statistical significance ("sigTrends").
 #'
+#' @seealso{\code{\link{spatGrad}}, \code{\link{gVoCC}}}
+#' 
 #' @export
 #' @author Jorge Garcia Molinos and Christopher J. Brown
 #' @examples
