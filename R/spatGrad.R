@@ -1,7 +1,8 @@
 #' Local spatial climatic gradients
 #'
 #' Function to calculate the magnitude and direction of the spatial gradient
-#' associated to a climatic variable after Burrows et al. 2011.
+#' associated to a climatic variable after Burrows et al. 2011. This trend is 
+#' to be used for the calculation of the gradient-based climate velocity using gVoCC.
 #'
 #' @usage spatGrad(r, th = -Inf, projected = FALSE)
 #'
