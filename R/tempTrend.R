@@ -2,7 +2,7 @@
 #'
 #' Function to calculate temporal trend from the mean annual raster series
 #' of a climatic variable. This trend is to be used for the calculation of the
-#' local climate velocity using lVoCC.
+#' gradient-based climate velocity using gVoCC.
 #'
 #' @usage tempTrend(r, th)
 #'
@@ -11,9 +11,10 @@
 #' @param th \code{Integer} minimum number of observations in the series needed to
 #' calculate the trend at each cell.
 #'
-#' @return A \code{RasterStack} containing annual trends
-#' ("slpTrends" in degree celsius per year) and their associated SE ("seTrends")
-#' and statistical significance("sigTrends").
+#' @return A \code{RasterStack} containing annual trends extracted from 
+#' simple linear regressions of the climatic variable against time
+#' ("slpTrends" in degree celsius per year), together with their standard 
+#' errors ("seTrends") and statistical significance ("sigTrends").
 #'
 #' @export
 #' @author Jorge Garcia Molinos and Christopher J. Brown
