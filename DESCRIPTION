@@ -27,10 +27,13 @@ Imports: CircStats,
     sp,
     stats,
     xts
-Suggests: ncdf4
+Suggests: ncdf4,
+    knitr,
+    rmarkdown
 URL: https://github.com/JorGarMol/VoCC
 BugReports: https://github.com/JorGarMol/VoCC/issues
 License: AGPL (>= 3) LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
+VignetteBuilder: knitr
