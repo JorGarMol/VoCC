@@ -9,7 +9,7 @@ Please contact [me](jorgegmolinos@arc.hokudai.ac.jp) if you use it or for questi
 
 ## Installation
 
-To install this beta version package, open R and type:
+To install the package, open R and type:
 
     install.packages("devtools")
 
