@@ -135,7 +135,7 @@ p2 <- rasterVis::levelplot(dv, par.settings = BuRdTheme, at=my.at, main = 'Dista
 gridExtra::grid.arrange(p1, p2, ncol=1)
 ```
 
-![](https://github.com/JorGarMol/VoCC/tree/master/vignettes/Fig1.png)
+![](https://github.com/JorGarMol/VoCC/blob/master/images/Fig1.png)
 
 ``` r
 # scatter plots with the resulting regression line
@@ -146,7 +146,7 @@ with(marshift, plot(I((DV*10)^(1/4)), Shift^(1/4)))
 abline(Mdv)
 ```
 
-![](https://github.com/JorGarMol/VoCC/tree/master/vignettes/Fig2.png)
+![](https://github.com/JorGarMol/VoCC/blob/master/vignettes/Fig2.png)
 
 Example 2: Analysis of climate exposure and connectivity in the Western Pacific Ocean
 =====================================================================================
@@ -203,7 +203,7 @@ plot(lns, add = TRUE)
 plot(eez_simp, col = scales::alpha(rgb(211, 211, 211, maxColorValue = 255), 0.5), add=TRUE)
 ```
 
-![](https://github.com/JorGarMol/VoCC/tree/master/vignettes/Fig3.png)
+![](https://github.com/JorGarMol/VoCC/blob/master/vignettes/Fig3.png)
 
 We now calulcate the trajectory classes and residence times for each EEZ
 
@@ -242,4 +242,4 @@ mycol = c(scales::alpha(rgb(192, 192, 192, maxColorValue = 255), 0.5), scales::a
 for(i in 1:35){add.pie(z = as.numeric(dt[i, 1:9]), x = dt[i,"x"], y = dt[i,"y"], radius = log(dt[i, "RT"]), col = mycol, labels = "")}
 ```
 
-![](https://github.com/JorGarMol/VoCC/tree/master/vignettes/Fig4.png)
+![](https://github.com/JorGarMol/VoCC/blob/master/vignettes/Fig4.png)
