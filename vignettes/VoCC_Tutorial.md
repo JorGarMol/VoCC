@@ -1,3 +1,7 @@
+VoCC_Tutorial
+===============================================
+
+
 This vignette provides the code to reproduce the examples for the R package VoCC as presented in Garcia Molinos et al. (2019). Refer to the paper and the function documentation for details on function options, considerations on the argument choices and interepretation of output.
 
 For this tutorial we need the following packages.
@@ -6,23 +10,14 @@ For this tutorial we need the following packages.
 # If not installed already get the VoCC package first
 # devtools::install_github("JorGarMol/VoCC")
 library(VoCC)
-#> Warning: package 'raster' was built under R version 3.4.4
-#> Warning: package 'sp' was built under R version 3.4.4
 library(rgeos)
 library(rasterVis)
-#> Warning: package 'rasterVis' was built under R version 3.4.4
-#> Warning: package 'latticeExtra' was built under R version 3.4.4
 library(gridExtra)
-#> Warning: package 'gridExtra' was built under R version 3.4.4
 library(doParallel)
-#> Warning: package 'doParallel' was built under R version 3.4.4
 library(foreach)
 library(scales)
-#> Warning: package 'scales' was built under R version 3.4.4
 library(data.table)
-#> Warning: package 'data.table' was built under R version 3.4.4
 library(mapplots)
-#> Warning: package 'mapplots' was built under R version 3.4.4
 ```
 
 Example 1: Prediction of biogeographical shifts
@@ -38,7 +33,7 @@ Next, we calculate the gradient- and distance-based velocities (1960-2009) from 
 
 ``` r
 # info on the sea surface temperature data set
-# ?HSST
+?HSST
 # monthly to annual averages
 r <- sumSeries(HSST, p = "1960-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
 # temporal trend
@@ -193,7 +188,7 @@ stopCluster(cl)
 Plot them over the climate velocities and the EEZ polygons (Fig. 3a in Garcia Molinos et al. 2019)
 
 ``` r
-# ?EEZs
+?EEZs
 # simplify polygons to speed plotting up
 eez_simp <- rgeos::gSimplify(EEZs, tol = 0.5, topologyPreserve = TRUE)
 plot(velc)
@@ -208,7 +203,7 @@ plot(eez_simp, col = scales::alpha(rgb(211, 211, 211, maxColorValue = 255), 0.5)
 We now calulcate the trajectory classes and residence times for each EEZ
 
 ``` r
-# ?traj25
+?traj25
 # classify trajectories (16 trajectories starting from each 1-deg cell cell)
 clas <- trajClas(traj25, vel, ang, mn, trajSt = 16, tyr = 50, nmL = 20, smL = 100, Nend = 45, Nst = 15, NFT = 70)
 # Extract proportions by categories for each EEZ
