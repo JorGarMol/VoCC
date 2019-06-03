@@ -135,7 +135,7 @@ p2 <- rasterVis::levelplot(dv, par.settings = BuRdTheme, at=my.at, main = 'Dista
 gridExtra::grid.arrange(p1, p2, ncol=1)
 ```
 
-![](C:\Users\Jorge%20Garcia%20Molinos\AppData\Local\Temp\Rtmp4wcPPr\preview-67c4dae3ad7.dir\VoCC_Tutorial_files/figure-markdown_github/unnamed-chunk-5-1.png)
+![](https://github.com/JorGarMol/VoCC/tree/master/vignettes/Fig1.png)
 
 ``` r
 # scatter plots with the resulting regression line
@@ -146,7 +146,7 @@ with(marshift, plot(I((DV*10)^(1/4)), Shift^(1/4)))
 abline(Mdv)
 ```
 
-![](C:\Users\Jorge%20Garcia%20Molinos\AppData\Local\Temp\Rtmp4wcPPr\preview-67c4dae3ad7.dir\VoCC_Tutorial_files/figure-markdown_github/unnamed-chunk-5-2.png)
+![](https://github.com/JorGarMol/VoCC/tree/master/vignettes/Fig2.png)
 
 Example 2: Analysis of climate exposure and connectivity in the Western Pacific Ocean
 =====================================================================================
@@ -203,7 +203,7 @@ plot(lns, add = TRUE)
 plot(eez_simp, col = scales::alpha(rgb(211, 211, 211, maxColorValue = 255), 0.5), add=TRUE)
 ```
 
-![](C:\Users\Jorge%20Garcia%20Molinos\AppData\Local\Temp\Rtmp4wcPPr\preview-67c4dae3ad7.dir\VoCC_Tutorial_files/figure-markdown_github/unnamed-chunk-9-1.png)
+![](https://github.com/JorGarMol/VoCC/tree/master/vignettes/Fig3.png)
 
 We now calulcate the trajectory classes and residence times for each EEZ
 
@@ -242,4 +242,4 @@ mycol = c(scales::alpha(rgb(192, 192, 192, maxColorValue = 255), 0.5), scales::a
 for(i in 1:35){add.pie(z = as.numeric(dt[i, 1:9]), x = dt[i,"x"], y = dt[i,"y"], radius = log(dt[i, "RT"]), col = mycol, labels = "")}
 ```
 
-![](C:\Users\Jorge%20Garcia%20Molinos\AppData\Local\Temp\Rtmp4wcPPr\preview-67c4dae3ad7.dir\VoCC_Tutorial_files/figure-markdown_github/unnamed-chunk-11-1.png)
+![](https://github.com/JorGarMol/VoCC/tree/master/vignettes/Fig4.png)
