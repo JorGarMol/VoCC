@@ -41,7 +41,6 @@ approach in that iterations of a trajectory are based on cumulative time travell
 }
 \examples{
 
-data(HSST)
 yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
 fun = function(x) colMeans(x, na.rm = TRUE),
 freqin = "months", freqout = "years")

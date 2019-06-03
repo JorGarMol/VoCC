@@ -10,9 +10,9 @@ trans = NA, lonlat = TRUE)
 \arguments{
 \item{clim}{\code{data.frame} with the value for the climatic parameters (columns) by cell (rows), arranged as follows (see examples below):
 The first 2n columns must contain the present and future values for each of the n climatic variables (V1p, V1f, V2p, V2f,...).
-Where cell-specific analogue thresholds (see "method" below) are to be calculated, the next (2n+1:3n) columns
+Where cell-specific analogue thresholds (see "variable" in "method" below) are to be calculated, the next (2n+1:3n) columns
 should contain the standard deviation (or any other measure of climatic variability) of each variable for the baseline period.
-The last three columns of the table should contain an identifyier and centroid coordinates of each cell.}
+These columns are not required if using the "Single" method. The last three columns of the table should contain an identifyier and centroid coordinates of each cell.}
 
 \item{n}{\code{integer} defining the number of climatic variables.}
 
@@ -40,17 +40,16 @@ or 'LeastCost' (Least Cost Path Distances). The latter requires a transition mat
 \value{
 A \code{data.frame} containing the cell id of the future analogue for each focal cell (NA = no analogue available),
 together with the climatic ("climDis") and geographical ("geoDis") distances in input units,
-the bearing ("ang", degrees North), and resulting climate velocity ("vel", km/yr). Mean climatic distance are returned for multivariate analogues.
+the bearing ("ang", degrees North), and resulting climate velocity ("vel", km/yr). Mean climatic distances are returned for multivariate analogues.
 }
 \description{
-Function to calculate climate analogues and related distance-based velocity. Cell analogues
+Function to calculate the geographically closest climate analogues and related distance-based velocity. Cell analogues
 are identified by comparing the baseline climatic conditions at each focal cell with those existing for all
 other (target) cells in the future by reference to a specified climatic threshold. The function allows for the
-specification of search distances and incorporate both least cost path and Great Circle (as-the-crow-flies) distances.
+specification of search distances and incorporates both least cost path and Great Circle (as-the-crow-flies) distances.
 }
 \examples{
 
-data(JapTC)
 ?JapTC
 
 # Create a data frame with the necessary variables in the required order

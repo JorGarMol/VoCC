@@ -14,18 +14,18 @@ the period of interest.}
 calculate the trend at each cell.}
 }
 \value{
-A \code{RasterStack} containing annual trends
-("slpTrends" in degree celsius per year) and their associated SE ("seTrends")
-and statistical significance("sigTrends").
+A \code{RasterStack} containing annual trends extracted from 
+simple linear regressions of the climatic variable against time
+("slpTrends" in degree celsius per year), together with their standard 
+errors ("seTrends") and statistical significance ("sigTrends").
 }
 \description{
 Function to calculate temporal trend from the mean annual raster series
 of a climatic variable. This trend is to be used for the calculation of the
-local climate velocity using lVoCC.
+gradient-based climate velocity using gVoCC.
 }
 \examples{
 
-data(HSST)
 yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
 fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
 
@@ -35,6 +35,9 @@ tr <- tempTrend(yrSST, th = 10)
 
 plot(tr)
 
+}
+\seealso{
+{\code{\link{spatGrad}}, \code{\link{gVoCC}}}
 }
 \author{
 Jorge Garcia Molinos and Christopher J. Brown

@@ -30,7 +30,6 @@ Function to calculate the seasonal shift in the arriving of seasonal climatology
 for a given period of interest as per Burrows et al. 2011.
 }
 \examples{
-data(HSST)
 Apr <- shiftTime(HSST, yr1 = 1960, yr2 = 2009, yr0 = 1955, th = 10, m = 4)
 
 plot(Apr)

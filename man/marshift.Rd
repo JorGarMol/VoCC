@@ -8,7 +8,7 @@
 et al.(2013) containing species range shifts in marine taxa reported
 in the literature. This data set corresponds to the most updated version
 as provided in Brown et al.(2016). Following the original analysis, null
-responses have been removed and shits reported as absolute shift distances
+responses have been removed and shifts reported as absolute shift distances
 (see Poloczanska et al. 2013 for details).}
 \usage{
 data(marshift)
