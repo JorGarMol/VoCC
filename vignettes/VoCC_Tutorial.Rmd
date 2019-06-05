@@ -1,11 +1,16 @@
 ---
 title: "VoCC_Tutorial"
 author: "Jorge García Molinos"
-date: "`r Sys.Date()`"
+date: "06.05.2019"
 output:
   prettydoc::html_pretty:
     highlight: github
     theme: tactile
+vignette: >
+  %\VignetteIndexEntry{VoCC_Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{VoCC_Tutorial}
+  \usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include = FALSE}
@@ -107,7 +112,6 @@ abline(Mgv)
 with(marshift, plot(I((DV*10)^(1/4)), Shift^(1/4)))
 abline(Mdv)
 ```
-
 
 # Example 2: Analysis of climate exposure and connectivity in the Western Pacific Ocean
 
