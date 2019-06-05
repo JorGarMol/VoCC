@@ -3,7 +3,7 @@
 #' Function to calculate the seasonal shift in the arriving of seasonal climatology
 #' for a given period of interest as per Burrows et al. 2011.
 #'
-#' @usage shiftTime(r, yr1, yr2, yr0, th, month)
+#' @usage shiftTime(r, yr1, yr2, yr0, th, m)
 #'
 #' @param r \code{stack} with monthly values of the climatic
 #' variable for the period of interest.
@@ -17,7 +17,8 @@
 #' @return a \code{stack} with the long-term monthly trend (C/year for temperature in degrees; "mTrend"),
 #' seasonal rate of change (C/month; "seaRate"), and seasonal shift (day/decade; "seaShift").
 #'
-#' @references \href{http://science.sciencemag.org/content/334/6056/652}{Burrows et al. 2011}. The pace of shifting climate in marine and terrestrial ecosystems. Science, 334, 652-655.
+#' @references \href{http://science.sciencemag.org/content/334/6056/652}{Burrows et al. 2011}. The pace of
+#' shifting climate in marine and terrestrial ecosystems. Science, 334, 652-655.
 #'
 #' @export
 #' @author Jorge Garcia Molinos and Michael T. Burrows
@@ -35,8 +36,8 @@ m1 <- ((yr1-yr0)*12)+ m
 m2 <- ((yr2-yr0)*12)+ m
 r1 <- r[[seq(m1, m2, by = 12)]]
 trend <- tempTrend(r1, th)[[1]]
-# 2. seasonal rate of shift in temperature centered on each month (deg/month) = difference in temperature between  preceding and following months divided by 2 months (slope)
-# preceding month
+# 2. seasonal rate of shift in temperature centered on each month (deg/month) = difference in
+# temperature between  preceding and following months divided by 2 months (slope) preceding month
 b <- ifelse((m-1) == 0, 12, (m-1))
 m1 <- ((yr1-yr0)*12)+b
 m2 <- ((yr2-yr0)*12)+b
