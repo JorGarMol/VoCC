@@ -27,10 +27,16 @@ Imports: CircStats,
     sp,
     stats,
     xts
-Suggests: ncdf4,
+Suggests: ggplot2,
+    gridExtra,
     knitr,
+    mapplots,
+    ncdf4,
+    prettydoc,
+    rasterVis,
+    rgeos,
     rmarkdown,
-    prettydoc
+    scales
 URL: https://github.com/JorGarMol/VoCC
 BugReports: https://github.com/JorGarMol/VoCC/issues
 License: AGPL (>= 3) LICENSE

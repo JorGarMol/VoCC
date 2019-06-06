@@ -6,7 +6,7 @@ knitr::opts_chunk$set(
 
 ## ----message=FALSE-------------------------------------------------------
 # If not installed already get the VoCC package first
-# devtools::install_github("JorGarMol/VoCC")
+# devtools::install_github("JorGarMol/VoCC", dependencies = TRUE, build_vignettes = TRUE)
 library(VoCC)
 library(rgeos)
 library(rasterVis)
