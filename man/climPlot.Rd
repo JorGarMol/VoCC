@@ -18,7 +18,7 @@ climPlot(xy, x.binSize, y.binSize, x.name="V1", y.name="V2")
 \item{y.name}{\code{character} the variable name for the second variable. Used to label the plot.}
 }
 \value{
-a series of \code{plot} objects displaying the (i) present and (ii) future
+A series of \code{plot} objects displaying the (i) present and (ii) future
 cell frequency for each combination of local climates,
 and (iii) the location of remnant, novel and disappearing climates between both periods.
 }
@@ -31,10 +31,11 @@ Function to create a binned scatter plot of two climate variables.
 xy <- na.omit(data.frame(getValues(JapTC[[1]]), getValues(JapTC[[2]]),
 getValues(JapTC[[3]]), getValues(JapTC[[4]])))
 
-out <- climPlot(xy, x.binSize = 5, y.binSize = 0.2, x.name="Precipitation (mm)", y.name="Temperature max (°C)")
+out <- climPlot(xy, x.binSize = 5, y.binSize = 0.2, x.name="Precipitation (mm)",
+y.name="Temperature max (°C)")
 
 # output plots can be saved as:
-ggsave(plot=out, filename=paste0(getwd(), "/example_plot.pdf"), width=17, height=17, unit="cm")
+ggplot2::ggsave(plot=out, filename=paste0(getwd(), "/example_plot.pdf"), width=17, height=17, unit="cm")
 
 
 }

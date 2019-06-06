@@ -19,7 +19,7 @@ a \code{data.frame} containing for each polygon its ID, mean velocity (km/yr),
 diameter of the equivalent circle (km), and residence time (years) as the ratio D/vel.
 }
 \description{
-Function to calculate vocc residence time of a polygon after Loaire et al. (2009)
+Function to calculate VoCC-based residence time of isotherms within a polygon after Loaire et al. (2009)
 }
 \examples{
 

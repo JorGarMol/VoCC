@@ -4,11 +4,11 @@
 \name{JapTC}
 \alias{JapTC}
 \title{Multivariate Terraclimate data for Japan}
-\format{A raster stack with 9 layers for the historical (60_69) and current(08_17)
-average (AnMn) and standard deciation (AnMnSD) of the mean annual (AnMn) precipitation (Ppr),
+\format{A raster stack with 9 layers for the historical (1960-1969) and current (2008-2017)
+average (AnMn) and standard deviation (AnMnSD) of the mean annual (AnMn) precipitation (Ppr),
 maximum (Tmax) and minimum (Tmin) temperature.}
 \source{
-Terraclimate data set (\href{http://www.climatologylab.org/terraclimate.html}{Abatzoglou et al. 2018}).
+\href{http://www.climatologylab.org/terraclimate.html}{Terraclimate} data set.
 }
 \usage{
 data(JapTC)
@@ -20,8 +20,7 @@ archipelago and including 3 variables: mean annual monthly precipitation (mm),
 maximum and minimum temperatures (C).
 }
 \references{
-Abatzoglou et al. 2018. Terraclimate, a high-resolution global
+\href{https://www.nature.com/articles/sdata2017191}{Abatzoglou et al. 2018}. Terraclimate, a high-resolution global
 dataset of monthly climate and climatic water balance from 1958-2015, Scientific Data, 5: 170191
-(\href{https://www.nature.com/articles/sdata2017191}{PubMed})
 }
 \keyword{datasets}

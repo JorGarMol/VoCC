@@ -9,7 +9,7 @@ gVoCC(tempTrend, spatGrad)
 \arguments{
 \item{tempTrend}{The output from the tempTrend function containing the long-term linear climatic trends.}
 
-\item{spatGrad}{The output from the tempTrend function containing the magnitudes and angles for the spatial climatic gradient.}
+\item{spatGrad}{The output from the spatGrad function containing the magnitudes and angles for the spatial climatic gradient.}
 }
 \value{
 A \code{RasterStack} containing the climate velocity magnitude ("voccMag",

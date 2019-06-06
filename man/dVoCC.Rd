@@ -19,9 +19,9 @@ These columns are not required if using the "Single" method. The last three colu
 \item{tdiff}{\code{integer} defining the number of years (or other temporal unit) between periods.}
 
 \item{method}{\code{character string} specifying the analogue method to be used. 'Single': a constant, single analogue threshold
-for each climate variable is applied to all cells (Ohlemuller et al 2006, Hamann et al. 2015); climate analogy corresponds to target cells
+for each climate variable is applied to all cells (Ohlemuller et al. 2006, Hamann et al. 2015); climate analogy corresponds to target cells
 with values below the specified threshold for each climatic variable. 'Variable': a cell-specific climate threshold is used for each climatic variable
-to determine the climate analogues associated to each cell by reference to its baseline climatic variability (Garcia Molinos et al. 2017).}
+to determine the climate analogues associated with each cell by reference to its baseline climatic variability (Garcia Molinos et al. 2017).}
 
 \item{climTol}{\code{numeric} a vector of length n giving the tolerance threshold defining climate analogue conditions for each climatic variable.
 If a cell-specific threshold is being used, this function parameter should be passed as NA.}
@@ -46,7 +46,7 @@ the bearing ("ang", degrees North), and resulting climate velocity ("vel", km/yr
 Function to calculate the geographically closest climate analogues and related distance-based velocity. Cell analogues
 are identified by comparing the baseline climatic conditions at each focal cell with those existing for all
 other (target) cells in the future by reference to a specified climatic threshold. The function allows for the
-specification of search distances and incorporates both least cost path and Great Circle (as-the-crow-flies) distances.
+specification of search distances and incorporates both least-cost path and Great Circle (as-the-crow-flies) distances.
 }
 \examples{
 
@@ -78,9 +78,9 @@ plot(stack(r1,r2))
 
 }
 \references{
-\href{https://onlinelibrary.wiley.com/doi/full/10.1111/j.1466-822X.2006.00245.x}{Ohlemuller et al. 2006}. Towards European climate risk surfaces: the extent and distribution of analogous and non-analogous climates 1931–2100. Global Ecology and Biogeography, 15, 395-405. \cr
+\href{https://onlinelibrary.wiley.com/doi/full/10.1111/j.1466-822X.2006.00245.x}{Ohlemuller et al. 2006}. Towards European climate risk surfaces: the extent and distribution of analogous and non-analogous climates 1931-2100. Global Ecology and Biogeography, 15, 395-405. \cr
  \href{https://onlinelibrary.wiley.com/doi/full/10.1111/gcb.12736}{Hamann et al. 2015}. Velocity of climate change algorithms for guiding conservation and management. Global Change Biology, 21, 997-1004. \cr
- \href{https://onlinelibrary.wiley.com/doi/full/10.1111/gcb.13665}{Garcia Molinos et al. 2017}. Improving the interpretability of climate landscape metrics: An ecological risk analysis of Japan's Marine Protected Areas. Global Change Biology, 23, 4440–4452.
+ \href{https://onlinelibrary.wiley.com/doi/full/10.1111/gcb.13665}{Garcia Molinos et al. 2017}. Improving the interpretability of climate landscape metrics: An ecological risk analysis of Japan's Marine Protected Areas. Global Change Biology, 23, 4440-4452.
 }
 \seealso{
 {\code{\link{climPCA}}, \code{\link{climPlot}}}

@@ -20,11 +20,11 @@ If FALSE (default) a correction will be made to account for latitudinal distorti
 \value{
 A \code{RasterStack} with the magnitude of the spatial gradient
 (Grad in C per km for unprojected rasters and C per spatial unit for projected rasters),
-and the associated angle (Ang in degrees C),
+and the associated angle (Ang in degrees).
 }
 \description{
 Function to calculate the magnitude and direction of the spatial gradient
-associated to a climatic variable after Burrows et al. 2011. This trend is 
+associated to a climatic variable after Burrows et al. (2011). This trend is
 to be used for the calculation of the gradient-based climate velocity using gVoCC.
 }
 \examples{

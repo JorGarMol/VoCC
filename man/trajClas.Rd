@@ -21,7 +21,7 @@ and identification number for each trajectory.}
 \item{tyr}{\code{integer} number of years comprising the projected period.}
 
 \item{nmL}{\code{numeric} upper threshold (distance units as per vel object) up to which
-a trajectory is considered to have traveled a negiglibe distance over the study period (non-moving).}
+a trajectory is considered to have traveled a negligible distance over the study period (non-moving).}
 
 \item{smL}{\code{numeric} upper threshold up to which a trajectory is considered to have traveled a small
 distance over the study period (slow-moving).}
@@ -41,7 +41,7 @@ flowing through ("PropFT") and starting ("PropSt"). The trajectory classes ("Tra
 (8) divergence and (9) convergence.
 }
 \description{
-Function for the spatial classification of cells based on vocc trajectories after Burrows et al (2014). The function performs
+Function for the spatial classification of cells based on VoCC trajectories after Burrows et al. (2014). The function performs
 a hierarchical sequential classification based on length of trajectories, geographical features, and the relative abundance of
 trajectories ending in, starting from and flowing through each cell. Essentially, cells are first classified as non-moving,
 slow-moving and fast-moving relative to the distance a trajectory will cover over the projection period based on local climate velocities.
@@ -52,8 +52,8 @@ number of trajectories per cell based on the proportions of the number of trajec
 through (NFT) a cell over the period. Based on these proportions, cells are classified into five classes: (1) climate sources, when no
 trajectories end in a cell (Nend = 0); (2) relative climate sinks, when the relative number of trajectories ending in a cell is high and the
 proportion of starting trajectories is low; (3) corridors as cells with a high proportion of trajectories passing through; and (4) divergence
-and (5) convergence cells identified from the remaining cells respectively as those where fewer/more trajectories ended than started in that
-cell.
+and (5) convergence cells identified from the remaining cells as those where fewer/more trajectories ended than started in that
+cell, respectively.
 }
 \examples{
 

@@ -27,7 +27,7 @@ for the specified percentage of total variance (th).
 }
 \description{
 Function to extract the first n principal components explaining a predefined total amount of variance among climatic variables.
-These components can be subsequently used as synthetic climatic variables to reduce dimensionality in climate analogue methods.
+These components can subsequently be used as synthetic climatic variables to reduce dimensionality in climate-analogue methods.
 }
 \examples{
 
