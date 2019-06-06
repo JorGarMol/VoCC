@@ -4,7 +4,7 @@
 #' coarser time frequency series for a period of interest. This function transforms the \code{RasterStack}
 #' into an \code{xts} time series object to extract the values for the period of interest and
 #' apply some summary function. It is mainly a wrapper from the \code{apply.} function family
-#' in the package xts (Ryan and Ulrich, 2017).
+#' in the package xts (Ryan and Ulrich 2017).
 #'
 #' @usage sumSeries(r, p, yr0, l, fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months",
 #' freqout = "years")
@@ -16,7 +16,7 @@
 #' @param l \code{integer} length of the input time series.
 #' @param fun \code{logical} summary function to be computed. Summary functions need to be applied by cell (columns)
 #' so should have the structure 'function(x) apply(x, 2, function(y){...})'. For convinience, sumSeries imports
-#' colMaxs, and colMins from package ‘matrixStats’ so they can be called in directly.
+#' colMaxs, and colMins from package ‘matrixStats’ (Bengtsson 2018) so they can be called in directly.
 #' @param freqin \code{character string} specifying the original time frequency of the series.
 #' @param freqout \code{character string} specifying the desired time frequency of the new series.
 #' Must be one of the following: "weeks", "months", "quarters", "years", "other". Argument "other"
@@ -25,7 +25,7 @@
 #' @return A \code{RasterStack} with the new series.
 #'
 #' @references \href{https://CRAN.R-project.org/package=xts}{Ray and Ulrich. 2017}. xts: eXtensible Time Series. R package version 0.10-1. \cr
-#' \href{https://CRAN.R-project.org/package=matrixStats}{Bengtsson. 2018}. matrixStats: Functions that Apply to Rows and Columns
+#' \href{https://CRAN.R-project.org/package=matrixStats}{Bengtsson 2018}. matrixStats: Functions that Apply to Rows and Columns
 #' of Matrices (and to Vectors). R package version 0.53.1.
 #'
 #' @importFrom matrixStats colMaxs colMins

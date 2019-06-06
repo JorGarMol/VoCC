@@ -1,7 +1,7 @@
 #' Reduce dimensionality of climate predictors via Principal Component Analysis
 #'
 #' Function to extract the first n principal components explaining a predefined total amount of variance among climatic variables.
-#' These components can be subsequently used as synthetic climatic variables to reduce dimensionality in climate analogue methods.
+#' These components can subsequently be used as synthetic climatic variables to reduce dimensionality in climate-analogue methods.
 #'
 #' @usage   climPCA(climp, climf, trans = function(x) log(x), cen = TRUE, sc = TRUE, th = 0.8)
 #'

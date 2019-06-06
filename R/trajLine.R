@@ -10,10 +10,10 @@
 #' (default geographic CRS).
 #'
 #' @return A \code{SpatialLinesDataFrame} with one line per trajectory as specified in x.
-#' To avoid artifacts, trajectories crossing the date line need to be splitted into two segments.
+#' To avoid artifacts, trajectories crossing the date line need to be split into two segments.
 #' Where the trajectory on one side of the date line is only composed of a single point,
 #' the trajectory won't be displayed (no line object created). The function assumes
-#' a -180 to 180 longitudinal arrengment.
+#' a -180 to 180 longitudinal arrangement.
 #'
 #' @seealso{\code{\link{voccTraj}}}
 #'

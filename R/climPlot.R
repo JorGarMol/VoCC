@@ -10,7 +10,7 @@
 #' @param x.name \code{character} the variable name for the first variable. Used to label the plot.
 #' @param y.name \code{character} the variable name for the second variable. Used to label the plot.
 #'
-#' @return a series of \code{plot} objects displaying the (i) present and (ii) future
+#' @return A series of \code{plot} objects displaying the (i) present and (ii) future
 #' cell frequency for each combination of local climates,
 #' and (iii) the location of remnant, novel and disappearing climates between both periods.
 #'

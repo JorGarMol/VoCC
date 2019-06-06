@@ -6,7 +6,7 @@
 #' @usage gVoCC(tempTrend, spatGrad)
 #'
 #' @param tempTrend The output from the tempTrend function containing the long-term linear climatic trends.
-#' @param spatGrad The output from the tempTrend function containing the magnitudes and angles for the spatial climatic gradient.
+#' @param spatGrad The output from the spatGrad function containing the magnitudes and angles for the spatial climatic gradient.
 #'
 #' @return A \code{RasterStack} containing the climate velocity magnitude ("voccMag",
 #' km/yr for unprojected rasters and spatial unit/year for projected rasters) and angle("voccAng" in degrees).

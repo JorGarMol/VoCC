@@ -1,6 +1,6 @@
 #' Climatic residence time of a polygon
 #'
-#' Function to calculate vocc residence time of a polygon after Loaire et al. (2009)
+#' Function to calculate VoCC-based residence time of isotherms within a polygon after Loaire et al. (2009)
 #'
 #' @usage resTime(pg, vel, areapg = NA)
 #'

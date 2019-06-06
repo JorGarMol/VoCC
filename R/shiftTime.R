@@ -1,7 +1,7 @@
 #' Shift in timing of seasonal climatology
 #'
-#' Function to calculate the seasonal shift in the arriving of seasonal climatology
-#' for a given period of interest as per Burrows et al. 2011.
+#' Function to calculate the seasonal shift in the arriving of typical seasonal climates
+#' for a given period of interest as per Burrows et al. (2011).
 #'
 #' @usage shiftTime(r, yr1, yr2, yr0, th, m)
 #'
@@ -26,6 +26,13 @@
 #' Apr <- shiftTime(HSST, yr1 = 1960, yr2 = 2009, yr0 = 1955, th = 10, m = 4)
 #'
 #' plot(Apr)
+#'
+#' # We can truncate extreme values for improved visualisation
+#' Aprt <- Apr[[3]]
+#' th = quantile(na.omit(Apr[[3]]),c(0.01,0.99))
+#' Aprt[which(Apr[[3]][] > th[2])] <- th[2]
+#' Aprt[which(Apr[[3]][] < th[1])] <- th[1]
+#' plot(Aprt)
 #'
 #' @rdname shiftTime
 
