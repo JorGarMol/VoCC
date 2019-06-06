@@ -15,7 +15,7 @@ To install the package, open R and type:
 
 Then, you can install vocc:
 
-    devtools::install_github("JorGarMol/VoCC")
+    devtools::install_github("JorGarMol/VoCC", dependencies = TRUE, build_vignettes = TRUE)
     library(VoCC)
 
 ## License
