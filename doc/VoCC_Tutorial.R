@@ -16,6 +16,7 @@ library(foreach)
 library(scales)
 library(data.table)
 library(mapplots)
+library(ggplot2)
 
 ## ------------------------------------------------------------------------
 # ?marshift
@@ -70,11 +71,11 @@ my.at <- seq(-20, 20, by = 2)
 p2 <- rasterVis::levelplot(dv, par.settings = BuRdTheme, at=my.at, main = 'Distance-based vocc', margin = FALSE)
 gridExtra::grid.arrange(p1, p2, ncol=1)
 # scatter plots with the resulting regression line
-par(mfrow=c(2,1))
-with(marshift, plot(I((GV*10)^(1/4)), Shift^(1/4)))
-abline(Mgv)
-with(marshift, plot(I((DV*10)^(1/4)), Shift^(1/4)))
-abline(Mdv)
+p1 <- ggplot(na.omit(marshift), aes(x=I((GV*10)^(1/4)), y=Shift^(1/4))) + geom_point(color="grey") + geom_smooth(method=lm, se=FALSE) +
+   theme_classic() + scale_color_brewer(palette="Accent") + labs(x="Predicted shift (x^1/4; km/yr)", y = "Observed shift (y^1/4; km/yr)")
+p2 <- ggplot(na.omit(marshift), aes(x=I((DV*10)^(1/4)), y=Shift^(1/4))) + geom_point(color="grey") + geom_smooth(method=lm, se=FALSE) +
+   theme_classic() + scale_color_brewer(palette="Accent") + labs(x="Predicted shift (x^1/4; km/yr)", y = "Observed shift (y^1/4; km/yr)")
+grid.arrange(p1, p2, nrow = 1)
 
 ## ------------------------------------------------------------------------
 # prepare raster layers

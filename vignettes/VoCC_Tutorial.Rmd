@@ -37,6 +37,7 @@ library(foreach)
 library(scales)
 library(data.table)
 library(mapplots)
+library(ggplot2)
 ```
 
 
@@ -48,7 +49,7 @@ We have a look first at the “marshift” global data set containing reported r
 # ?marshift
 ```
 
-Next, we calculate the gradient- and distance-based velocities (1960-2009) from which we will extract later the corresponding values for each observed shift.
+Next, we calculate the gradient- and distance-based velocities (1960-2009) from which we will later extract the corresponding values for each observed shift.
 
 ```{r}
 # info on the sea surface temperature data set
@@ -106,11 +107,11 @@ my.at <- seq(-20, 20, by = 2)
 p2 <- rasterVis::levelplot(dv, par.settings = BuRdTheme, at=my.at, main = 'Distance-based vocc', margin = FALSE)
 gridExtra::grid.arrange(p1, p2, ncol=1)
 # scatter plots with the resulting regression line
-par(mfrow=c(2,1))
-with(marshift, plot(I((GV*10)^(1/4)), Shift^(1/4)))
-abline(Mgv)
-with(marshift, plot(I((DV*10)^(1/4)), Shift^(1/4)))
-abline(Mdv)
+p1 <- ggplot(na.omit(marshift), aes(x=I((GV*10)^(1/4)), y=Shift^(1/4))) + geom_point(color="grey") + geom_smooth(method=lm, se=FALSE) +
+   theme_classic() + scale_color_brewer(palette="Accent") + labs(x="Predicted shift (x^1/4; km/yr)", y = "Observed shift (y^1/4; km/yr)")
+p2 <- ggplot(na.omit(marshift), aes(x=I((DV*10)^(1/4)), y=Shift^(1/4))) + geom_point(color="grey") + geom_smooth(method=lm, se=FALSE) +
+   theme_classic() + scale_color_brewer(palette="Accent") + labs(x="Predicted shift (x^1/4; km/yr)", y = "Observed shift (y^1/4; km/yr)")
+grid.arrange(p1, p2, nrow = 1)
 ```
 
 # Example 2: Analysis of climate exposure and connectivity in the Western Pacific Ocean
@@ -142,7 +143,7 @@ lonlat$mn <- raster::extract(mn, lonlat[,1:2])
 lonlat <- na.omit(lonlat)
 ```
 
-Lets calculate the trajectories with parallel processing to demonstrate how this can be used to speed things up (especially useful when dealing with fine resolutions or large extents).
+Let's calculate the trajectories with parallel processing to demonstrate how this can be used to speed things up (especially useful when dealing with fine resolutions or large extents).
 
 ```{r}
 cores = detectCores()
@@ -183,7 +184,7 @@ d <- prop.table(table(v),1)
 EEZa <- resTime(EEZs, vel, areapg = NA)
 ```
 
-Finally lets plot the category proportions as pie charts on top of each EEZ, the size of the chart being proportional to their respective residence time (Fig. 3b in Garcia Molinos et al. 2019).
+Finally let's plot the category proportions as pie charts on top of each EEZ, the size of the chart being proportional to their respective residence time (Fig. 3b in Garcia Molinos et al. 2019).
 
 ```{r}
 D <- data.table(d)  # put data in long format
