@@ -53,23 +53,22 @@
 #' fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
 #'
 #' mn <- raster::calc(yrSST, mean, na.rm=T)
-#'
 #' tr <- tempTrend(yrSST, th = 10)
-#'
 #' sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
-#'
 #' v <- gVoCC(tr,sg)
 #' vel <- v[[1]]
 #' ang <- v[[2]]
 #'
-#' # get the set of starting cells for the trajectories and calculate trajectories
+#' # Get the set of starting cells for the trajectories and calculate trajectories
 #' # at 1/4-deg resolution (16 trajectories per 1-deg cell)
-#' r <- disaggregate(mn, 4)
-#' lonlat <- na.omit(data.frame(xyFromCell(vel, 1:ncell(vel)), vel[], ang[], mn[]))[,1:2]
+#' mnd <- disaggregate(mn, 4)
+#' veld <- disaggregate(vel, 4)
+#' angd <- disaggregate(ang, 4)
+#' lonlat <- na.omit(data.frame(xyFromCell(veld, 1:ncell(veld)), veld[], angd[], mnd[]))[,1:2]
 #'
 #' traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50, correct = TRUE)
 #'
-#' # generate the trajectory-based classification
+#' # Generate the trajectory-based classification
 #' clas <- trajClas(traj, vel,ang, mn, trajSt = 16, tyr = 50, nmL = 20, smL = 100,
 #' Nend = 45, Nst = 15, NFT = 70, DateLine = FALSE)
 #'
@@ -80,12 +79,12 @@
 #' my_col <- my_col[sort(unique(clas[[7]][]))]
 #'
 #' # Classify raster / build attribute table
-#' r <- ratify(clas[[7]])
-#' rat_r <-levels(r)[[1]]
+#' clasr <- ratify(clas[[7]])
+#' rat_r <-levels(clasr)[[1]]
 #' rat_r$trajcat <- c("N-M", "S-M", "IS", "BS", "Srce", "RS", "Cor", "Div", "Con")[sort(unique(clas[[7]][]))]
-#' levels(r) <- rat_r
+#' levels(clasr) <- rat_r
 #' # Produce the plot using the rasterVis levelplot function
-#' rasterVis::levelplot(sm, col.regions = my_col, xlab = NULL, ylab = NULL, scales = list(draw=FALSE))
+#' rasterVis::levelplot(clasr, col.regions = my_col, xlab = NULL, ylab = NULL, scales = list(draw=FALSE))
 #'
 #' @rdname trajClas
 
