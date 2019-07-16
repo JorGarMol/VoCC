@@ -30,6 +30,7 @@
 #' @param Nend \code{numeric} the percentage of trajectories ending to be used as threshold in the classification.
 #' @param Nst \code{numeric} the percentage of trajectories starting to be used as threshold in the classification.
 #' @param NFT \code{numeric} the percentage of trajectories flowing through to be used as threshold in the classification.
+#' @param DateLine \code{logical} does the raster extent cross the international date line? (default "FALSE").
 #'
 #' @return A \code{raster.stack} containing the trajectory classification ("TrajClas"),
 #' as well as those based on trajectory length ("ClassL"; 1 non-moving, 2 slow-moving, 3 fast-moving cells),
@@ -47,29 +48,48 @@
 #' @author Jorge Garcia Molinos
 #' @examples
 #'
-#' # Trajectories generated from 0.25-degree global grid
-#' ?traj25
-#'
 #' # input raster layers
 #' yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
 #' fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+#'
 #' mn <- raster::calc(yrSST, mean, na.rm=T)
+#'
 #' tr <- tempTrend(yrSST, th = 10)
+#'
 #' sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
+#'
 #' v <- gVoCC(tr,sg)
+#' vel <- v[[1]]
+#' ang <- v[[2]]
 #'
-#' clas <- trajClas(traj25, v[[1]], v[[2]], mn, trajSt = 16, tyr = 50, nmL = 20, smL = 100,
-#' Nend = 45, Nst = 15, NFT = 70)
+#' # get the set of starting cells for the trajectories and calculate trajectories
+#' # at 1/4-deg resolution (16 trajectories per 1-deg cell)
+#' r <- disaggregate(mn, 4)
+#' lonlat <- na.omit(data.frame(xyFromCell(vel, 1:ncell(vel)), vel[], ang[], mn[]))[,1:2]
 #'
-#' my_col = c('gainsboro','darkseagreen1','coral4','firebrick2','mediumblue','darkorange1',
-#' 'magenta1','cadetblue1','yellow1')
-#' plot(clas[[7]], legend = FALSE, col = my_col)
-#' legend(x='bottomleft', legend = c("N-M", "S-M", "IS", "BS", "Srce", "RS", "Cor", "Div", "Con"),
-#' fill = my_col,horiz = TRUE, cex = 0.7)
+#' traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50, correct = TRUE)
+#'
+#' # generate the trajectory-based classification
+#' clas <- trajClas(traj, vel,ang, mn, trajSt = 16, tyr = 50, nmL = 20, smL = 100,
+#' Nend = 45, Nst = 15, NFT = 70, DateLine = FALSE)
+#'
+#' # Define first the colour palette for the full set of categories
+#' my_col = c('gainsboro', 'darkseagreen1', 'coral4', 'firebrick2', 'mediumblue', 'darkorange1',
+#' 'magenta1', 'cadetblue1', 'yellow1')
+#' # Keep only the categories present in our raster
+#' my_col <- my_col[sort(unique(clas[[7]][]))]
+#'
+#' # Classify raster / build attribute table
+#' r <- ratify(clas[[7]])
+#' rat_r <-levels(r)[[1]]
+#' rat_r$trajcat <- c("N-M", "S-M", "IS", "BS", "Srce", "RS", "Cor", "Div", "Con")[sort(unique(clas[[7]][]))]
+#' levels(r) <- rat_r
+#' # Produce the plot using the rasterVis levelplot function
+#' rasterVis::levelplot(sm, col.regions = my_col, xlab = NULL, ylab = NULL, scales = list(draw=FALSE))
 #'
 #' @rdname trajClas
 
-trajClas <- function(traj, vel, ang, mn, trajSt, tyr, nmL, smL , Nend, Nst, NFT){
+trajClas <- function(traj, vel, ang, mn, trajSt, tyr, nmL, smL , Nend, Nst, NFT, DateLine = FALSE){
 
 TrajEnd <- TrajFT <- TrajSt <- IntS <- BounS <- TrajClas <- raster(ang)
 
@@ -99,9 +119,12 @@ ll <- data.table(xyFromCell(ang, 1:ncell(ang)))
 ll[,1:2] <- ll[,1:2] + 0.1   # add small offset to the centroid
 a <- fourCellsFromXY(ang, as.matrix(ll[,1:2]))
 a <- t(apply(a, 1, sort))
-# correct sequences on date line
-a[seq(360, by = 360, length = nrow(ang)),] <- t(apply(a[seq(360, by = 360, length = nrow(ang)),], 1, function(x) {x[c(2,1,4,3)]}))
-b <- matrix(raster::extract(ang, as.vector(a)), nrow = ncell(ang), ncol = 4, byrow = FALSE)        # extract the angles for each cell
+# If date line crossing, correct sequences on date line
+if(DateLine == TRUE){
+a[seq(ncol(ang), by = ncol(ang), length = nrow(ang)),] <- t(apply(a[seq(ncol(ang), by = ncol(ang), length = nrow(ang)),], 1, function(x) {x[c(2,1,4,3)]}))
+}
+# Extract the angles for each group of 4 cells
+b <- matrix(raster::extract(ang, as.vector(a)), nrow = ncell(ang), ncol = 4, byrow = FALSE)
 ll[, c("c1", "c2", "c3", "c4", "ang1", "ang2", "ang3", "ang4") := data.frame(a, b)]
 # now look if the 4 angles point inwards (internal sink)
 ll[, c("d1", "d2", "d3", "d4") := .(((ang1 - 180)  *  (90 - ang1)), ((ang2 - 270)  *  (180 - ang2)), ((ang3 - 90)  *  (0 - ang3)), ((ang4 - 360)  *  (270 - ang4)))]

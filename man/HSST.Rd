@@ -3,9 +3,9 @@
 \docType{data}
 \name{HSST}
 \alias{HSST}
-\title{Global monthly mean sea surface temperatures (SST) for 1955-2010}
-\format{A raster stack with 672 layers containing global mean monthly SSTs (C)
-at 1-deg resolution for the period Jan 1955 to Dec 2010.}
+\title{Monthly mean sea surface temperatures (SST) around Iceland for 1955-2010}
+\format{A raster stack with 672 layers containing mean monthly SSTs (C)
+at 1-deg resolution for the period Jan 1955 to Dec 2010 for the Atlantic waters surrounding Iceland.}
 \source{
 Hadley Centre data set \href{https://www.metoffice.gov.uk/hadobs/hadisst/}{HadISST 1.1} (data accessed May 2018).
 }
@@ -13,7 +13,7 @@ Hadley Centre data set \href{https://www.metoffice.gov.uk/hadobs/hadisst/}{HadIS
 data(HSST)
 }
 \description{
-Global monthly mean sea surface temperatures (SST) for 1955-2010
+Monthly mean sea surface temperatures (SST) around Iceland for 1955-2010
 }
 \references{
 \href{https://www.metoffice.gov.uk/hadobs/hadisst/HadISST_paper.pdf}{Rayner et al. 2003}. Global analyses of sea

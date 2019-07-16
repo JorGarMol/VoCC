@@ -23,9 +23,9 @@ Function to calculate VoCC-based residence time of isotherms within a polygon af
 }
 \examples{
 
-# Load example Exclusive Economic Zone polygons
+# Load example Exclusive Economic Zone polygon
 
-?EEZs
+?EEZ
 ?HSST
 yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
 fun = function(x) colMeans(x, na.rm = TRUE),
@@ -35,10 +35,10 @@ sg <- spatGrad(yrSST, th = 0.0001, projected = FALSE)
 v <- gVoCC(tr,sg)
 vel <- v[[1]]
 # Calculating area internally
-a1 <- resTime(EEZs, vel, areapg = NA)
+a1 <- resTime(EEZ, vel, areapg = NA)
 a1
 # Using the area field from the polygon data table
-a2 <- resTime(EEZs, vel, areapg = as.numeric(as.numeric(levels(EEZs$Area_km2))[EEZs$Area_km2]))
+a2 <- resTime(EEZ, vel, areapg = as.numeric(as.numeric(levels(EEZ$Area_km2))[EEZ$Area_km2]))
 a2
 }
 \references{

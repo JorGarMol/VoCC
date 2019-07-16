@@ -27,13 +27,6 @@
 #'
 #' plot(Apr)
 #'
-#' # We can truncate extreme values for improved visualisation
-#' Aprt <- Apr[[3]]
-#' th = quantile(na.omit(Apr[[3]]),c(0.01,0.99))
-#' Aprt[which(Apr[[3]][] > th[2])] <- th[2]
-#' Aprt[which(Apr[[3]][] < th[1])] <- th[1]
-#' plot(Aprt)
-#'
 #' @rdname shiftTime
 
 

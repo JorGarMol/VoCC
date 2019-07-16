@@ -40,7 +40,7 @@ mn <- mean(yrSST, na.rm = T)
 lonlat <- na.omit(data.frame(xyFromCell(vel, 1:ncell(vel)), vel[], ang[], mn[]))[,1:2]
 
 # Calculate trajectories.
-traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50)
+traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50, correct =TRUE)
 
 # create a spatial line data frame from traj
 lns <- trajLine(x = traj)

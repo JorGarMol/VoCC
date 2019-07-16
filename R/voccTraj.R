@@ -49,8 +49,12 @@
 #' # get the set of starting cells for the trajectories
 #' lonlat <- na.omit(data.frame(xyFromCell(vel, 1:ncell(vel)), vel[], ang[], mn[]))[,1:2]
 #'
-#' # Calculate trajectories.
+#' # Calculate trajectories
+#' # The following throws an error due to the trajectories moving beyond the raster extent
 #' traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50)
+#'
+#' This accounts for the extent issue
+#' traj <- voccTraj(lonlat, vel, ang, mn, tyr = 50, correct = TRUE)
 #'
 #' @rdname voccTraj
 
