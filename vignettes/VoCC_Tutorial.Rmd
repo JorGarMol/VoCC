@@ -23,21 +23,30 @@ knitr::opts_chunk$set(
 
 This vignette provides the code to reproduce the examples for the R package VoCC as presented in Garcia Molinos et al. (2019). Refer to the paper and the function documentation for details on function options, considerations on the argument choices and interepretation of output.
 
-For this tutorial we need the following packages.
+For this tutorial we need the following packages (if not installed get them first):
 
 ```{r message=FALSE}
-# If not installed already get the VoCC package first
 # devtools::install_github("JorGarMol/VoCC", dependencies = TRUE, build_vignettes = TRUE)
-library(VoCC)
-library(rgeos)
-library(rasterVis)
-library(gridExtra)
-library(doParallel)
-library(foreach)
-library(scales)
-library(data.table)
-library(mapplots)
-library(ggplot2)
+suppressWarnings(library(VoCC))
+suppressWarnings(library(rgeos))
+suppressWarnings(library(rasterVis))
+suppressWarnings(library(gridExtra))
+suppressWarnings(library(doParallel))
+suppressWarnings(library(foreach))
+suppressWarnings(library(scales))
+suppressWarnings(library(data.table))
+suppressWarnings(library(mapplots))
+suppressWarnings(library(ggplot2))
+suppressWarnings(library(repmis))
+```
+
+We also need a few data sets that can be downloaded into R from the Github Data repository (https://github.com/JorGarMol/VoCC_data_sets) companion to the package. See the repository readme file for description of the data sets.
+
+```{r message=FALSE}
+source_data("https://github.com/JorGarMol/VoCC_data_sets/blob/master/Data/HadiSST.rda?raw=true")      # HSST data set
+source_data("https://github.com/JorGarMol/VoCC_data_sets/blob/master/Data/EZZs.rda?raw=true")      # EEZs data set
+source_data("https://github.com/JorGarMol/VoCC_data_sets/blob/master/Data/marshift.rda?raw=true")  # marshift data set
+source_data("https://github.com/JorGarMol/VoCC_data_sets/blob/master/Data/traj25.rda?raw=true")    # traj25 data set
 ```
 
 
@@ -46,16 +55,14 @@ library(ggplot2)
 We have a look first at the “marshift” global data set containing reported range shifts in marine species corresponding to given periods of time.
 
 ```{r}
-# ?marshift
+str(marshift)
 ```
 
-Next, we calculate the gradient- and distance-based velocities (1960-2009) from which we will later extract the corresponding values for each observed shift.
+Next, we calculate the gradient- and distance-based velocities (1960-2009), using the HSST data set, from which we will later extract the corresponding values for each observed shift.
 
 ```{r}
-# info on the sea surface temperature data set
-# ?HSST
 # monthly to annual averages
-r <- sumSeries(HSST, p = "1960-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
+r <- sumSeries(HadiSST, p = "1960-01/2009-12", yr0 = "1955-01-01", l = nlayers(HadiSST), fun = function(x) colMeans(x, na.rm = TRUE), freqin = "months", freqout = "years")
 # temporal trend
 vt <- tempTrend(r, th = 10)
 # spatial gradient
@@ -84,7 +91,6 @@ v$velBis[ind] <- v$vel[ind] * -1
 dv <- raster(gv)
 dv[v$focal] <- v$velBis
 
-data(marshift)
 marshift$GV <- with(marshift, raster::extract(abs(gv[[1]]), cbind(long, lat), buffer = (Shift* (timespan/10)*1000), fun = mean, na.rm = TRUE, small = TRUE))
 marshift$DV <- with(marshift, raster::extract(abs(dv), cbind(long, lat), buffer = (Shift* (timespan/10)*1000), fun = mean, na.rm = TRUE, small = TRUE))
 # retrieve the closest marine cell for those centroids falling on land
@@ -155,10 +161,9 @@ traj <- foreach(x = levels(cuts), .combine = rbind, .packages = c('raster','sp',
 stopCluster(cl)
 ```
 
-Plot them over the climate velocities and the EEZ polygons (Fig. 3a in Garcia Molinos et al. 2019)
+Plot them over the climate velocities and the EEZ polygons from the EEZs data set (Fig. 3a in Garcia Molinos et al. 2019)
 
 ```{r}
-# ?EEZs
 # simplify polygons to speed plotting up
 eez_simp <- rgeos::gSimplify(EEZs, tol = 0.5, topologyPreserve = TRUE)
 plot(velc)
@@ -168,10 +173,9 @@ plot(lns, add = TRUE)
 plot(eez_simp, col = scales::alpha(rgb(211, 211, 211, maxColorValue = 255), 0.5), add=TRUE)
 ```
 
-We now calulcate the trajectory classes and residence times for each EEZ
+We now calulcate the trajectory classes and residence times for each EEZ using the traj25 data set.
 
 ```{r}
-# ?traj25
 # classify trajectories (16 trajectories starting from each 1-deg cell cell)
 clas <- trajClas(traj25, vel, ang, mn, trajSt = 16, tyr = 50, nmL = 20, smL = 100, Nend = 45, Nst = 15, NFT = 70)
 # Extract proportions by categories for each EEZ
