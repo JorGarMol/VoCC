@@ -1,4 +1,4 @@
-# Functions for Calculating the Velocity of Climate Change
+# VoCC: The Velocity of Climate Change and related climatic metrics
 
 Jorge Garcia Molinos et al. 18 July 2019
 
