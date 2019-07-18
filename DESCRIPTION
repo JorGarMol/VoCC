@@ -1,6 +1,7 @@
 Package: VoCC
 Title: The Velocity of Climate Change and related climatic metrics
-Version: 0.0.0.9000
+Date: 2019-07-18
+Version: 1.0.0
 Authors@R: c(person("Jorge", "Garcia Molinos", email = "jorgegmolinos@arc.hokudai.ac.jp", role = c("aut", "cre")),
     person("David", "S. Schoeman", email = "", role = "aut"),
     person("Christopher", "J. Brown", email = "", role = "aut"),
