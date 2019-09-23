@@ -208,3 +208,7 @@ mycol = c(scales::alpha(rgb(192, 192, 192, maxColorValue = 255), 0.5), scales::a
 #         "Source", "Internal sink","Corridor", "Divergence", "Convergence")
 for(i in 1:35){add.pie(z = as.numeric(dt[i, 1:9]), x = dt[i,"x"], y = dt[i,"y"], radius = log(dt[i, "RT"]), col = mycol, labels = "")}
 ```
+
+# References
+
+García Molinos, J., Schoeman, D. S., Brown, C. J. and Burrows, M. T. (2019), VoCC: An R package for calculating the velocity of climate change and related climatic metrics. Methods Ecol Evol. doi:10.1111/2041-210X.13295
