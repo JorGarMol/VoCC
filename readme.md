@@ -21,3 +21,14 @@ Then, you can install vocc:
 ## License
 
 GNU Affero General Public License v3.0
+
+## Citation
+
+To cite the package itself please use:
+
+García Molinos, J., Schoeman, D. S., Brown, C. J. and Burrows, M. T. (2019). VoCC: The Velocity of Climate Change and
+  related climatic metrics. R package version 1.0.0. https://doi.org/10.5281/zenodo.3382092
+
+The following paper explains the package functionality and provides the examples covered by the code in the package vignette
+
+García Molinos, J., Schoeman, D. S., Brown, C. J. and Burrows, M. T. (2019), VoCC: An R package for calculating the velocity of climate change and related climatic metrics. Methods Ecol Evol. doi:10.1111/2041-210X.13295
