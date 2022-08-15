@@ -35,7 +35,7 @@
 climPCA <-  function(climp, climf, trans = function(x) log(x), cen = TRUE, sc = TRUE, th = 0.8){
   # get a data table with the pooled values (current/future) of the clim variables
   clim <- data.table(rbind(getValues(climp),getValues(climf)))
-  clim <- na.omit(clim[, c("cid", "p") := list(1:ncell(climp[[1]]), rep(c("present","future"), each = ncell(climp[[1]])))])
+  clim <- na.omit(clim[, c("cid", "p") := list(rep(1:ncell(climp[[1]]), times = 2), rep(c("present","future"), each = ncell(climp[[1]])))])
   # apply transformation if required
   if(!is.na(trans)){ clim <- trans(clim[,-c("cid","p")]) }
   # apply PCA
