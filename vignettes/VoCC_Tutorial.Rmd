@@ -173,9 +173,14 @@ plot(lns, add = TRUE)
 plot(eez_simp, col = scales::alpha(rgb(211, 211, 211, maxColorValue = 255), 0.5), add=TRUE)
 ```
 
-We now calulcate the trajectory classes and residence times for each EEZ using the traj25 data set.
+We now calulcate the trajectory classes and residence times for each EEZ using the traj25 data set. 
 
 ```{r}
+# get the set of starting cells for the trajectories and calculate trajectories
+# at 1/4-deg resolution (16 trajectories per 1-deg cell)
+r <- disaggregate(mn, 4)
+lonlat <- na.omit(data.frame(xyFromCell(vel, 1:ncell(vel)), vel[], ang[], mn[]))[,1:2]
+traj25 <- voccTraj(lonlat, vel, ang, mn, tyr = 50, correct = TRUE)
 # classify trajectories (16 trajectories starting from each 1-deg cell cell)
 clas <- trajClas(traj25, vel, ang, mn, trajSt = 16, tyr = 50, nmL = 20, smL = 100, Nend = 45, Nst = 15, NFT = 70)
 # Extract proportions by categories for each EEZ
