@@ -34,7 +34,7 @@
 #' @author Jorge Garcia Molinos, David S. Schoeman and Michael T. Burrows
 #' @examples
 #'
-#' yrSST <- sumSeries(HSST, p = "1969-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
+#' yrSST <- sumSeries(HSST, p = "1960-01/2009-12", yr0 = "1955-01-01", l = nlayers(HSST),
 #' fun = function(x) colMeans(x, na.rm = TRUE),
 #' freqin = "months", freqout = "years")
 #' tr <- tempTrend(yrSST, th = 10)
