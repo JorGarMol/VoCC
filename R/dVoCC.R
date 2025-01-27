@@ -93,7 +93,7 @@ cuts <- cut(1:nrow(dat), ncores, labels = FALSE)
 cl <- makeCluster(ncores)
 registerDoParallel(cl)
 
-result <- foreach(x = 1:ncores, .combine = rbind, .packages = c('raster', 'gdistance', 'sp', 'rgeos', 'geosphere', 'rgdal', 'VoCC', 'data.table'), .multicombine = TRUE) %dopar% {
+result <- foreach(x = 1:ncores, .combine = rbind, .packages = c('gdistance', 'sp', 'geosphere', 'VoCC', 'data.table'), .multicombine = TRUE) %dopar% {
 a <- x
 Dat <- dat[cuts == a,]
 

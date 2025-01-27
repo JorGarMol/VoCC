@@ -24,7 +24,6 @@ Imports: CircStats,
     matrixStats,
     parallel,
     RColorBrewer,
-    rgdal,
     sp,
     stats,
     xts
@@ -36,7 +35,6 @@ Suggests: ggplot2,
     prettydoc,
     rasterVis,
     repmis,
-    rgeos,
     rmarkdown,
     scales
 URL: https://github.com/JorGarMol/VoCC
